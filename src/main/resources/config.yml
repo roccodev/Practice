@@ -1,0 +1,53 @@
+#######################################################
+# Practice Config
+# For info and help, check the Git repo over here:
+# https://github.com/RoccoDev/Practice
+# If you wish to contact me privately, send me an email:
+# me@roccodev.pw
+# You may also find me on Discord: RoccoDev#1337
+# As well as on SpigotMC.org: Rocco
+########################################################
+
+########################################################
+# DOCUMENTATION
+#
+# You can use color codes with '&' (e.g., &a).
+#
+# Some config entries support parameters:
+# %1$ represents the first parameter (will be explained),
+# %2$ represents the second parameter,
+# and so on.
+#########################################################
+
+## BOOLEANS
+
+# Enable /report
+bool.report: true
+
+# Enable /ping
+bool.ping: true
+
+# Enable /duel
+bool.duel: true
+
+
+## PREFIXES
+
+# Prefix for all information plugin messages
+prefix.info: "&aPractice | "
+
+# Prefix for all error plugin messages
+prefix.error: "&cPractice | "
+
+
+## ERRORS
+
+# This error is thrown when the user is missing the required permission to do the action.
+# Parameters:
+# %1$ - The required permission (e.g., practice.report)
+error.permission: "Invalid permissions. (Missing %1$)"
+
+# This error is thrown when the plugin could not find the player specified.
+# Parameters:
+# %1$ - The player name that couldn't be found
+error.notfound: "Could not find player %1$."

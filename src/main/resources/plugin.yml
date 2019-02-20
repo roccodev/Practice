@@ -1,0 +1,43 @@
+name: "Practice"
+version: "1.0"
+description: "PVP Practice plugin"
+author: "RoccoDev"
+website: "https://roccodev.pw/practice"
+main: "pw.roccodev.bukkit.practice.PracticePlugin"
+commands:
+  practice:
+    description: "Main Practice command"
+    usage: "/practice"
+  duel:
+    description: "Ask someone for a duel"
+    usage: "/duel <player>"
+  report:
+    description: "Report someone else"
+    usage: "/report <player> <reason>"
+  ping:
+    description: "See someone's ping"
+    usage: "/ping [player]"
+permissions:
+  practice.*:
+    description: "Gives admin access to the plugin."
+    default: op
+    children:
+      practice.duel: true
+      practice.duel.force: true
+      practice.report: true
+      practice.report.receive: true
+      practice.ping: true
+      practice.ping.others: true
+  practice.duel:
+    description: "/duel command"
+    default: true
+  practice.report:
+    description: "/report command"
+    default: true
+  practice.report.others:
+    description: "Receives reports"
+  practice.ping:
+    description: "/ping command"
+    default: true
+  practice.ping.others:
+    description: "/ping someone else"
