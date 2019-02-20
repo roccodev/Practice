@@ -11,6 +11,7 @@ repositories {
 
     maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' } /* Spigot */
     maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' } /* BungeeCord */
+    maven { url = 'http://maven.sk89q.com/repo/' } /* WorldEdit, for schematics */
 
     mavenCentral()
     mavenLocal()
@@ -21,4 +22,5 @@ dependencies {
 
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT' /* Spigot */
     compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT' /* CraftBukkit */
+    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:6.1.4-SNAPSHOT' /* WorldEdit */
 }

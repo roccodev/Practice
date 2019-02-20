@@ -12,6 +12,8 @@ public class ConfigEntries {
 
     public static String PING_RESULT;
 
+    public static double ARENA_YLEVEL;
+
 
     public static void formatAndSend(CommandSender sendTo, String in, Object... values) {
         sendTo.sendMessage(String.format(in, values));
@@ -29,5 +31,7 @@ public class ConfigEntries {
         E_404 = ERROR_PREFIX + c(config.getString("error.notfound"));
 
         PING_RESULT = INFO_PREFIX + c(config.getString("ping.result"));
+
+        ARENA_YLEVEL = config.getDouble("arena.ylevel");
     }
 }
