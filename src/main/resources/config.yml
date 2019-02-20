@@ -14,8 +14,8 @@
 # You can use color codes with '&' (e.g., &a).
 #
 # Some config entries support parameters:
-# %1$ represents the first parameter (will be explained),
-# %2$ represents the second parameter,
+# %1$s represents the first parameter,
+# %2$s represents the second parameter,
 # and so on.
 #########################################################
 
@@ -34,20 +34,29 @@ bool.duel: true
 ## PREFIXES
 
 # Prefix for all information plugin messages
-prefix.info: "&aPractice | "
+prefix.info: "&a&lPractice §8»§7 "
 
 # Prefix for all error plugin messages
-prefix.error: "&cPractice | "
+prefix.error: "&c&lPractice §8»§7 "
 
 
 ## ERRORS
 
 # This error is thrown when the user is missing the required permission to do the action.
 # Parameters:
-# %1$ - The required permission (e.g., practice.report)
-error.permission: "Invalid permissions. (Missing %1$)"
+# %1$s - The required permission (e.g., practice.report)
+error.permission: "Invalid permissions. (Missing %1$s)"
 
 # This error is thrown when the plugin could not find the player specified.
 # Parameters:
-# %1$ - The player name that couldn't be found
-error.notfound: "Could not find player %1$."
+# %1$s - The player name that couldn't be found
+error.notfound: "Could not find player %1$s."
+
+
+## /ping COMMAND
+
+# The message that is sent as a result of the /ping command.
+# Parameters:
+# %1$s - The player
+# %2$s - The player's ping, in milliseconds.
+ping.result: "%1$s's ping is %2$sms."

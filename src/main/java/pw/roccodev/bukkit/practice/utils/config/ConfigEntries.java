@@ -10,6 +10,8 @@ public class ConfigEntries {
 
     public static String E_PERM, E_404;
 
+    public static String PING_RESULT;
+
 
     public static void formatAndSend(CommandSender sendTo, String in, Object... values) {
         sendTo.sendMessage(String.format(in, values));
@@ -23,7 +25,9 @@ public class ConfigEntries {
         INFO_PREFIX = c(config.getString("prefix.info"));
         ERROR_PREFIX = c(config.getString("prefix.error"));
 
-        E_PERM = c(config.getString("error.permission"));
-        E_404 = c(config.getString("error.notfound"));
+        E_PERM = ERROR_PREFIX + c(config.getString("error.permission"));
+        E_404 = ERROR_PREFIX + c(config.getString("error.notfound"));
+
+        PING_RESULT = INFO_PREFIX + c(config.getString("ping.result"));
     }
 }
