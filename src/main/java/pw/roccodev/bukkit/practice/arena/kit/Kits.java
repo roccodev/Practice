@@ -10,7 +10,7 @@ public class Kits {
 
     public static ArenaKit getByIcon(ItemStack item) {
         for(ArenaKit kit : kits) {
-            if(kit.getIcon() == item) return kit;
+            if(kit.getIcon().equals(item)) return kit;
         }
         return null;
     }

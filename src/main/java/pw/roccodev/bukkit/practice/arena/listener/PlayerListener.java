@@ -18,6 +18,7 @@ public class PlayerListener implements Listener {
             Arena arena = Arenas.getByPlayer(player);
             if(arena == null) return;
             if(event.getFinalDamage() >= player.getHealth()) {
+                event.setCancelled(true);
                 if(event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE ||
                     event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
                     arena.playerKilled(player, DeathType.PLAYER);

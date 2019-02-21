@@ -24,7 +24,6 @@ public class PingCommand implements CommandExecutor {
         }
         else return true;
         if(player == null) return true;
-        System.out.println(player.getMaximumNoDamageTicks());
         sender.sendMessage(buildPing(player));
         return true;
     }

@@ -1,8 +1,12 @@
 package pw.roccodev.bukkit.practice;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import pw.roccodev.bukkit.practice.arena.FileLoader;
+import pw.roccodev.bukkit.practice.arena.listener.PlayerListener;
 import pw.roccodev.bukkit.practice.commands.AdminCommand;
+import pw.roccodev.bukkit.practice.commands.DuelCommand;
 import pw.roccodev.bukkit.practice.commands.PingCommand;
 import pw.roccodev.bukkit.practice.commands.SpectateCommand;
 import pw.roccodev.bukkit.practice.utils.FileCheck;
@@ -32,6 +36,10 @@ public class PracticePlugin extends JavaPlugin {
         getCommand("practice").setExecutor(new AdminCommand());
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("spectate").setExecutor(new SpectateCommand());
+        getCommand("duel").setExecutor(new DuelCommand());
+
+        PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(new PlayerListener(), this);
 
         new MetricsLite(this); /* Metrics */
 

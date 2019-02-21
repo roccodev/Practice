@@ -81,6 +81,34 @@ arena.spectator.flyondeath: true
 # - "clear": Clear the inventory after the game. (The contents WILL be lost!)
 arena.kit.reset: "reset"
 
+# The message shown when a player is invited to a duel.
+# Parameters:
+# %1$s - The sender
+# %2$s - The kit
+# %3$s - The map
+arena.invite: "&a%1$s&7 has asked you to duel on map &a%3$s &7with kit &a%2$s&7. &aClick here&7 or run &a/duel accept %1$s &7to accept."
+
+# The message shown when a player joins the arena.
+# Parameters:
+# %1$s - The player
+arena.join: "&a%1$s&7 has joined the arena."
+
+# The message shown when a player leaves the arena.
+# Parameters:
+# %1$s - The player
+arena.leave: "&a%1$s&7 has left the arena."
+
+# The message shown when a player joins the arena as a spectator.
+# It's also shown when a player dies and, as such, becomes a spectator.
+# Parameters:
+# %1$s - The player
+arena.spectator.join: "&a%1$s&7 is now spectating."
+
+# The message shown when a player leaves the arena as a spectator.
+# Parameters:
+# %1$s - The player
+arena.spectator.leave: "&a%1$s&7 is no longer spectating."
+
 
 ## /ping COMMAND
 

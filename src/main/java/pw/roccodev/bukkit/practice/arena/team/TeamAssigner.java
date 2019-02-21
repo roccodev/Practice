@@ -28,6 +28,7 @@ public class TeamAssigner {
             }
         }
 
+        arena.teamsAssigned();
         arena.setCombatants(alreadyChosenTeams);
     }
 }

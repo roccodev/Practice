@@ -16,6 +16,7 @@ public class ConfigEntries {
 
     public static double ARENA_YLEVEL;
     public static boolean ARENA_SPEC_FLIGHT, ARENA_SPEC_FLIGHTON;
+    public static String ARENA_INVITE, ARENA_JOIN, ARENA_LEAVE, ARENA_SPECJOIN, ARENA_SPECLEAVE;
 
     public static KitDispatcherType ARENA_KIT_RESET;
 
@@ -49,6 +50,12 @@ public class ConfigEntries {
         ARENA_SPEC_FLIGHTON = config.getBoolean("arena.spectator.flyondeath");
 
         ARENA_KIT_RESET = KitDispatcherType.valueOf(config.getString("arena.kit.reset").toUpperCase());
+
+        ARENA_INVITE = INFO_PREFIX + c(config.getString("arena.invite"));
+        ARENA_JOIN = INFO_PREFIX + c(config.getString("arena.join"));
+        ARENA_LEAVE = INFO_PREFIX + c(config.getString("arena.leave"));
+        ARENA_SPECJOIN = INFO_PREFIX + c(config.getString("arena.spectator.join"));
+        ARENA_SPECLEAVE = INFO_PREFIX + c(config.getString("arena.spectator.leave"));
 
 
     }

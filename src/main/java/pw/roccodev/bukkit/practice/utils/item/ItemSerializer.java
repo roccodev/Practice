@@ -9,7 +9,8 @@ public class ItemSerializer {
     }
 
     public static ItemStack deserialize(String s) {
+
         String[] data = s.split("/");
-        return new ItemStack(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Short.parseShort(data[2]));
+        return new ItemStack(Integer.parseInt(data[0]), Integer.parseInt(data[2]), Short.parseShort(data[1]));
     }
 }

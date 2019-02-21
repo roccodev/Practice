@@ -1,12 +1,13 @@
 package pw.roccodev.bukkit.practice.arena;
 
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import pw.roccodev.bukkit.practice.arena.kit.KitDispatcherType;
 import pw.roccodev.bukkit.practice.arena.kit.Kits;
 import pw.roccodev.bukkit.practice.arena.listener.DeathType;
-import pw.roccodev.bukkit.practice.arena.map.MapGenerator;
 import pw.roccodev.bukkit.practice.arena.map.Maps;
 import pw.roccodev.bukkit.practice.arena.team.TeamAssigner;
 import pw.roccodev.bukkit.practice.utils.CollUtils;
@@ -34,11 +35,15 @@ public class Arena {
     private HashMap<Player, ItemStack[]> cachedInventories = new HashMap<>();
     private HashMap<Player, ItemStack[]> cachedArmor = new HashMap<>();
 
+    private List<Player> invited = new ArrayList<>();
+
     public Arena(ArenaMap map, ArenaKit kit, int maxTeams) {
         this.map = map == null ? Maps.maps.stream().collect(CollUtils.toShuffledStream()).findAny().get() : map;
         this.kit = kit == null ? Kits.kits.stream().collect(CollUtils.toShuffledStream()).findAny().get() : kit;
         this.maxTeams = maxTeams;
         this.id = ThreadLocalRandom.current().nextInt();
+
+        Arenas.arenas.add(this);
     }
 
     public Arena(ArenaMap map, int maxTeams) {
@@ -95,8 +100,13 @@ public class Arena {
         spectate(who);
 
         if(getTotalPlayerCount() <= 1) {
+            System.out.println("Stopping arena " + id);
             stop();
         }
+    }
+
+    public List<Player> getInvited() {
+        return invited;
     }
 
     public int getTotalPlayerCount() {
@@ -107,10 +117,40 @@ public class Arena {
         return count;
     }
 
+    public void teamsAssigned() {
+        awaitingTeam.clear();
+    }
+
+    public void invitePlayer(Player toInvite, String sender) {
+        invited.add(toInvite);
+        String message = String.format(ConfigEntries.ARENA_INVITE, sender, kit.getName(), map.getName());
+
+        TextComponent cmp = new TextComponent(message);
+        cmp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/duel accept " + sender));
+
+        toInvite.spigot().sendMessage(cmp);
+    }
+
+    public void broadcast(String message) {
+        for(Player awaiting : awaitingTeam) {
+            awaiting.sendMessage(message);
+        }
+
+        for(ArenaTeam team : combatants) {
+            for(Player player : team.getPlayers()) {
+                player.sendMessage(message);
+            }
+        }
+
+        for(Player spec : spectators) {
+            spec.sendMessage(message);
+        }
+    }
+
     public void start() {
 
         /* Load the map */
-        MapGenerator.generateMap(map);
+        // MapGenerator.generateMap(map);
 
         /* Assign teams */
         TeamAssigner.assignTeams(this);
@@ -140,6 +180,7 @@ public class Arena {
     }
 
     public void playerJoin(Player joining, ArenaTeam team) {
+        invited.remove(joining);
         if(team == null) {
             awaitingTeam.add(joining);
         }
@@ -149,6 +190,9 @@ public class Arena {
         cachedSpectatorLocations.put(joining, joining.getLocation());
         cachedInventories.put(joining, joining.getInventory().getContents());
         cachedArmor.put(joining, joining.getInventory().getArmorContents());
+        broadcast(String.format(ConfigEntries.ARENA_JOIN, joining.getName()));
+
+        if(awaitingTeam.size() >= maxTeams) start();
     }
 
     public void playerKick(Player toKick, String reason) {
@@ -160,6 +204,7 @@ public class Arena {
 
     public void spectate(Player spectator) {
         spectators.add(spectator);
+        broadcast(String.format(ConfigEntries.ARENA_SPECJOIN, spectator.getName()));
 
         if(ConfigEntries.ARENA_SPEC_FLIGHT)
             spectator.setAllowFlight(true);
@@ -170,6 +215,7 @@ public class Arena {
 
     public void stopSpectating(Player spectator) {
         spectators.remove(spectator);
+        broadcast(String.format(ConfigEntries.ARENA_SPECLEAVE, spectator.getName()));
         spectator.setAllowFlight(false);
         spectator.setFlying(false);
 
@@ -192,7 +238,7 @@ public class Arena {
     }
 
     public void stop() {
-
+        Arenas.arenas.remove(this);
     }
 
 }
