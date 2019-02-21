@@ -1,4 +1,7 @@
 # Practice
+![LOC](https://badgen.net/codeclimate/loc/RoccoDev/Practice)
+[![Build Status](https://travis-ci.org/RoccoDev/Practice.svg?branch=master)](https://travis-ci.org/RoccoDev/Practice)
+
 A simple yet fully fledged PvP Practice/Arena plugin for Bukkit/Spigot.
 
 ## Features
