@@ -1,26 +1,32 @@
 package pw.roccodev.bukkit.practice.utils.schema;
 
-import com.sk89q.jnbt.CompoundTag;
-import com.sk89q.worldedit.CuboidClipboard;
+import com.google.common.io.Closer;
 import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
-import com.sk89q.worldedit.blocks.BaseBlock;
-import com.sk89q.worldedit.blocks.BlockID;
-import com.sk89q.worldedit.bukkit.BukkitUtil;
+import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.bukkit.adapter.BukkitImplAdapter;
-import com.sk89q.worldedit.schematic.SchematicFormat;
-import com.sk89q.worldedit.util.Countable;
-import com.sk89q.worldedit.world.DataException;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
+import com.sk89q.worldedit.function.operation.Operation;
+import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.session.ClipboardHolder;
+import com.sk89q.worldedit.world.registry.WorldData;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import pw.roccodev.bukkit.practice.PracticePlugin;
 import pw.roccodev.bukkit.practice.arena.ArenaMap;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+
+/*
+TODO Complete this class
+
+ */
 
 public class SchematicUtils {
 
@@ -28,15 +34,40 @@ public class SchematicUtils {
         try {
             File f = getSchematic(name);
 
-            EditSession editSession = new EditSession(new BukkitWorld(world), 999999999);
-            editSession.enableQueue();
+            LocalSession editSession = new LocalSession();
 
-            SchematicFormat schematic = SchematicFormat.getFormat(f);
-            CuboidClipboard clipboard = schematic.load(f);
+            ClipboardFormat format = ClipboardFormat.findByFile(f);
 
-            clipboard.paste(editSession, BukkitUtil.toVector(result), true);
-            editSession.flushQueue();
-        } catch (DataException | IOException | MaxChangedBlocksException ex) {
+            try (Closer closer = Closer.create()) {
+                FileInputStream fis = closer.register(new FileInputStream(f));
+                BufferedInputStream bis = closer.register(new BufferedInputStream(fis));
+                ClipboardReader reader = format.getReader(bis);
+
+                WorldData worldData = new BukkitWorld(world).getWorldData();
+                Clipboard clipboard = reader.read(worldData);
+                ClipboardHolder holder = new ClipboardHolder(clipboard, worldData);
+                editSession.setClipboard(holder);
+
+                EditSession session = new EditSession(new BukkitWorld(world), 999999999);
+                session.enableQueue();
+
+
+                Vector to = new Vector(result.getX(), result.getY(), result.getZ());
+                Operation operation = holder
+                        .createPaste(session, worldData)
+                        .to(to)
+                        .ignoreAirBlocks(false)
+                        .build();
+                Operations.completeLegacy(operation);
+                session.flushQueue();
+
+            } catch (IOException e) {
+               e.printStackTrace();
+            }
+
+
+
+        } catch (MaxChangedBlocksException ex) {
             ex.printStackTrace();
         }
     }
@@ -45,28 +76,22 @@ public class SchematicUtils {
         return new File(PracticePlugin.PLUGIN_DIR + "/maps/schematics/" + name);
     }
 
-    public static void generateSpawnPoints(ArenaMap map, CuboidClipboard clip) {
-        for(Countable<BaseBlock> bl : clip.getBlockDistributionWithData()) {
+    public static void generateSpawnPoints(ArenaMap map, Clipboard clip) {
+
+        /*
             if(bl.getID().getId() == BlockID.SIGN_POST) {
                 CompoundTag nbt = bl.getID().getNbtData();
                 if(nbt == null) continue;
                 if(!nbt.containsKey("Text1")) continue;
-                if(!nbt.containsKey("Text2")) continue;
 
                 String firstLine = nbt.getString("Text1");
-                String secondLine = nbt.getString("Text2");
                 if(firstLine.equals("[SpawnPoint]")) {
-                    if(secondLine.equalsIgnoreCase("a")) {
 
-                    }
-                    else {
-
-                    }
-                    bl.getID().setType(BlockID.AIR);
                 }
 
             }
         }
+        */
     }
 
 }

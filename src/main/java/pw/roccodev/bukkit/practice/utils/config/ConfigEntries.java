@@ -8,11 +8,13 @@ public class ConfigEntries {
 
     public static String INFO_PREFIX, ERROR_PREFIX;
 
-    public static String E_PERM, E_404;
+    public static String E_PERM, E_404, E_KICK;
 
     public static String PING_RESULT;
 
     public static double ARENA_YLEVEL;
+    public static boolean ARENA_SPEC_FLIGHT;
+    public static boolean ARENA_SPEC_FLIGHTON;
 
 
     public static void formatAndSend(CommandSender sendTo, String in, Object... values) {
@@ -33,5 +35,10 @@ public class ConfigEntries {
         PING_RESULT = INFO_PREFIX + c(config.getString("ping.result"));
 
         ARENA_YLEVEL = config.getDouble("arena.ylevel");
+
+        ARENA_SPEC_FLIGHT = config.getBoolean("arena.spectator.allowflight");
+        ARENA_SPEC_FLIGHTON = config.getBoolean("arena.spectator.flyondeath");
+
+        E_KICK = c(config.getString("error.arena.kick"));
     }
 }

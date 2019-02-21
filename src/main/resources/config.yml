@@ -52,6 +52,24 @@ error.permission: "Invalid permissions. (Missing %1$s)"
 # %1$s - The player name that couldn't be found
 error.notfound: "Could not find player %1$s."
 
+# This error is thrown when the player is kicked from an arena.
+# Parameters:
+# %1$s - The reason for the kick
+error.arena.kick: "You have been kicked from the arena. Reason:&c %1$s"
+
+## ARENA
+
+# The Y coordinate of the arena (used by the generator).
+# Too low y levels will cause the sky to appear dark,
+# and too high y levels will cause the player models to disappear.
+arena.ylevel: 60
+
+# Whether the spectators should be able to fly.
+arena.spectator.allowflight: true
+
+# Whether the spectators should be flying as soon as they join/die.
+arena.spectator.flyondeath: true
+
 
 ## /ping COMMAND
 

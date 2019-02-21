@@ -24,6 +24,8 @@ public class FileCheck {
     public static void initDirs() {
         checkNotExist("maps", true);
         checkNotExist("maps/schematics", true);
+
+        checkNotExist("kits", true);
     }
 
 }

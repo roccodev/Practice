@@ -1,6 +1,7 @@
 package pw.roccodev.bukkit.practice.arena;
 
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 
@@ -14,5 +15,14 @@ public class Arenas {
         }
         return null;
     }
+
+    public static Arena getByPlayer(Player player) {
+        for(Arena arena : arenas) {
+            if(arena.getCombatants().stream().anyMatch(team -> team.getPlayers().contains(player)))
+                return arena;
+        }
+        return null;
+    }
+
 
 }
