@@ -58,6 +58,9 @@ public class ArenaKit {
         player.updateInventory();
     }
 
+    public ItemStack getIcon() {
+        return icon;
+    }
 
     public boolean hasNoHitDelay() {
         return noHitDelay;

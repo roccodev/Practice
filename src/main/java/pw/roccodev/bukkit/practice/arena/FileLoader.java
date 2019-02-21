@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import pw.roccodev.bukkit.practice.PracticePlugin;
 import pw.roccodev.bukkit.practice.arena.kit.KitParser;
 import pw.roccodev.bukkit.practice.arena.kit.Kits;
+import pw.roccodev.bukkit.practice.gui.GuiSelectKit;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +25,8 @@ public class FileLoader {
             KitParser parser = new KitParser(kitFile.getName(), config);
             Kits.kits.add(parser.parse());
         }
+
+        GuiSelectKit.init();
 
     }
 
