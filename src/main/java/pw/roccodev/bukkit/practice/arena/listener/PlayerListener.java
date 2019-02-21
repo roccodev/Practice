@@ -34,7 +34,7 @@ public class PlayerListener implements Listener {
         Arena arena = Arenas.getByPlayer(leaving);
         if(arena == null) return;
         if(arena.getState() != ArenaState.REQUEST)
-            arena.playerKilled(leaving, DeathType.FORFEIT);
+            arena.playerKick(leaving, "Logged off.");
     }
 
 }

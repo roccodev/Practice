@@ -2,17 +2,20 @@ package pw.roccodev.bukkit.practice.arena;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import pw.roccodev.bukkit.practice.arena.kit.KitDispatcherType;
+import pw.roccodev.bukkit.practice.arena.kit.Kits;
 import pw.roccodev.bukkit.practice.arena.listener.DeathType;
 import pw.roccodev.bukkit.practice.arena.map.MapGenerator;
+import pw.roccodev.bukkit.practice.arena.map.Maps;
 import pw.roccodev.bukkit.practice.arena.team.TeamAssigner;
+import pw.roccodev.bukkit.practice.utils.CollUtils;
 import pw.roccodev.bukkit.practice.utils.config.ConfigEntries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Arena {
 
@@ -30,6 +33,25 @@ public class Arena {
     private List<Player> awaitingTeam = new ArrayList<>();
     private HashMap<Player, ItemStack[]> cachedInventories = new HashMap<>();
     private HashMap<Player, ItemStack[]> cachedArmor = new HashMap<>();
+
+    public Arena(ArenaMap map, ArenaKit kit, int maxTeams) {
+        this.map = map == null ? Maps.maps.stream().collect(CollUtils.toShuffledStream()).findAny().get() : map;
+        this.kit = kit == null ? Kits.kits.stream().collect(CollUtils.toShuffledStream()).findAny().get() : kit;
+        this.maxTeams = maxTeams;
+        this.id = ThreadLocalRandom.current().nextInt();
+    }
+
+    public Arena(ArenaMap map, int maxTeams) {
+        this(map, null, maxTeams);
+    }
+
+    public Arena(ArenaKit kit, int maxTeams) {
+        this(null, kit, maxTeams);
+    }
+
+    public Arena(int maxTeams) {
+        this(null, null, maxTeams);
+    }
 
     public ArenaMap getMap() {
         return map;
@@ -104,6 +126,13 @@ public class Arena {
             }
         }
 
+        /* Give kits */
+        for(ArenaTeam team : combatants) {
+            for(Player player : team.getPlayers()) {
+                kit.apply(player);
+            }
+        }
+
     }
 
     public void playerJoin(Player joining) {
@@ -124,6 +153,8 @@ public class Arena {
 
     public void playerKick(Player toKick, String reason) {
         ConfigEntries.formatAndSend(toKick, ConfigEntries.E_KICK, reason);
+        if(!spectators.contains(toKick))
+            playerKilled(toKick, DeathType.FORFEIT);
         stopSpectating(toKick);
     }
 

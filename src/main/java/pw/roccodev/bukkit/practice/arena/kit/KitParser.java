@@ -23,8 +23,10 @@ public class KitParser {
         ItemStack icon = ItemSerializer.deserialize(yaml.getString("icon"));
 
         List<ItemStack> items = (List<ItemStack>) yaml.getList("items");
+        List<ItemStack> armor = (List<ItemStack>) yaml.getList("armor");
 
-        return new ArenaKit(name, description, hitDelay, icon, hitDelayValue, items.toArray(new ItemStack[0]), fileName);
+        return new ArenaKit(name, description, hitDelay, icon, hitDelayValue, items.toArray(new ItemStack[0]),
+                armor.toArray(new ItemStack[0]), fileName);
 
     }
 
