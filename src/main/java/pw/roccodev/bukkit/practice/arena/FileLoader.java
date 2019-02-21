@@ -13,7 +13,7 @@ import java.io.IOException;
 public class FileLoader {
 
     private static void loadAllKits() throws IOException, InvalidConfigurationException {
-        File kitsDir = new File(PracticePlugin.PLUGIN_DIR + "kits");
+        File kitsDir = new File(PracticePlugin.PLUGIN_DIR + "/kits");
         if(!kitsDir.exists()) kitsDir.mkdirs();
 
         for(File kitFile : kitsDir.listFiles()) {
