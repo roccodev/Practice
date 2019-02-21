@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import pw.roccodev.bukkit.practice.arena.kit.KitDispatcherType;
+import pw.roccodev.bukkit.practice.utils.Prefix;
 
 public class ConfigEntries {
 
@@ -32,10 +33,13 @@ public class ConfigEntries {
         INFO_PREFIX = c(config.getString("prefix.info"));
         ERROR_PREFIX = c(config.getString("prefix.error"));
 
+        Prefix.INFO = INFO_PREFIX;
+        Prefix.ERROR = ERROR_PREFIX;
+
         E_PERM = ERROR_PREFIX + c(config.getString("error.permission"));
         E_404 = ERROR_PREFIX + c(config.getString("error.notfound"));
-        E_KICK = c(config.getString("error.arena.kick"));
-        E_NOTINARENA = c(config.getString("error.arena.playernotfound"));
+        E_KICK = ERROR_PREFIX + c(config.getString("error.arena.kick"));
+        E_NOTINARENA = ERROR_PREFIX + c(config.getString("error.arena.playernotfound"));
 
         PING_RESULT = INFO_PREFIX + c(config.getString("ping.result"));
 

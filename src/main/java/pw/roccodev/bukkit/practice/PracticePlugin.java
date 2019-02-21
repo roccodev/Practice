@@ -2,6 +2,7 @@ package pw.roccodev.bukkit.practice;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import pw.roccodev.bukkit.practice.arena.FileLoader;
+import pw.roccodev.bukkit.practice.commands.AdminCommand;
 import pw.roccodev.bukkit.practice.commands.PingCommand;
 import pw.roccodev.bukkit.practice.commands.SpectateCommand;
 import pw.roccodev.bukkit.practice.utils.FileCheck;
@@ -13,11 +14,13 @@ import java.io.File;
 public class PracticePlugin extends JavaPlugin {
 
     public static File PLUGIN_DIR;
+    public static PracticePlugin INST;
 
     @Override
     public void onEnable() {
 
         PLUGIN_DIR = getDataFolder();
+        INST = this;
         FileCheck.initDirs();
 
         ConfigEntries.init(getConfig());
@@ -26,10 +29,13 @@ public class PracticePlugin extends JavaPlugin {
         /* Load kits, maps, etc. */
         FileLoader.loadEverything();
 
+        getCommand("practice").setExecutor(new AdminCommand());
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("spectate").setExecutor(new SpectateCommand());
 
         new MetricsLite(this); /* Metrics */
+
+        PluginCompat.check();
     }
 
     @Override

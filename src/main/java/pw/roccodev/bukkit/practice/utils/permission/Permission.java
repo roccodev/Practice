@@ -2,6 +2,7 @@ package pw.roccodev.bukkit.practice.utils.permission;
 
 import org.bukkit.command.CommandSender;
 import pw.roccodev.bukkit.practice.utils.Prefix;
+import pw.roccodev.bukkit.practice.utils.config.ConfigEntries;
 
 public enum Permission {
 
@@ -13,7 +14,10 @@ public enum Permission {
     REPORT("report"),
     REPORT_RECEIVE("report.receive"),
 
-    SPECTATE("spectate");
+    SPECTATE("spectate"),
+
+    INFO("info"),
+    ADMIN("admin");
 
     private String permission;
 
@@ -32,7 +36,7 @@ public enum Permission {
     public boolean assertHasPerm(CommandSender sender) {
         if(has(sender)) return false;
         else {
-            sender.sendMessage(Prefix.ERROR + "Permission.");
+            ConfigEntries.formatAndSend(sender, ConfigEntries.E_PERM, "practice." + permission);
             return true;
         }
     }

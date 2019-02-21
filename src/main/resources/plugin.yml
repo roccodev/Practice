@@ -48,3 +48,10 @@ permissions:
     description: "/ping someone else"
   practice.spectate:
     description: "Spectate a player using /spectate"
+    default: true
+  practice.info:
+    description: "Run the /practice command"
+    default: true
+  practice.admin:
+    description: "Allows to use the admin features of the /practice command"
+    default: op
