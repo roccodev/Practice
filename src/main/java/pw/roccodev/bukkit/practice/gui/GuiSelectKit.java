@@ -19,7 +19,8 @@ public class GuiSelectKit implements Listener {
     private static Inventory guiInventory;
 
     public static void init() {
-        guiInventory = Bukkit.createInventory(null, Kits.kits.size());
+        guiInventory = Bukkit.createInventory(null,
+                9); // TODO Change
         List<ItemStack> contents = new ArrayList<>();
 
         for(ArenaKit kit : Kits.kits) {

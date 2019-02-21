@@ -2,7 +2,6 @@ package pw.roccodev.bukkit.practice.arena;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -29,6 +28,14 @@ public class ArenaKit {
         return name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
     public ArenaKit(String name, String description, boolean noHitDelay, ItemStack icon, int hitDelay, ItemStack[] inventory,
                     ItemStack[] armor, String fileName) {
         this.name = name;
@@ -39,6 +46,19 @@ public class ArenaKit {
         this.inventory = inventory;
         this.fileName = fileName;
         this.armor = armor;
+
+        initIcon();
+    }
+
+    public ArenaKit(String name, ItemStack[] inventory, ItemStack[] armor) {
+        this.fileName = name + ".yml";
+        this.name = name;
+        this.description = "Replace in the kit config.";
+        this.inventory = inventory;
+        this.armor = armor;
+
+        this.noHitDelay = false;
+        this.icon = new ItemStack(Material.PAPER);
 
         initIcon();
     }
