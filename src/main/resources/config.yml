@@ -70,6 +70,12 @@ arena.spectator.allowflight: true
 # Whether the spectators should be flying as soon as they join/die.
 arena.spectator.flyondeath: true
 
+# The way the player's inventory should be given back.
+# Possible values:
+# - "reset": Cache the inventory before joining, then give it back.
+# - "clear": Clear the inventory after the game. (The contents WILL be lost!)
+arena.kit.reset: "reset"
+
 
 ## /ping COMMAND
 

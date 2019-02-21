@@ -2,6 +2,10 @@ package pw.roccodev.bukkit.practice.arena;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import pw.roccodev.bukkit.practice.arena.kit.KitDispatcherType;
+import pw.roccodev.bukkit.practice.arena.listener.DeathType;
 import pw.roccodev.bukkit.practice.arena.map.MapGenerator;
 import pw.roccodev.bukkit.practice.arena.team.TeamAssigner;
 import pw.roccodev.bukkit.practice.utils.config.ConfigEntries;
@@ -24,6 +28,8 @@ public class Arena {
 
     private HashMap<Player, Location> cachedSpectatorLocations = new HashMap<>();
     private List<Player> awaitingTeam = new ArrayList<>();
+    private HashMap<Player, ItemStack[]> cachedInventories = new HashMap<>();
+    private HashMap<Player, ItemStack[]> cachedArmor = new HashMap<>();
 
     public ArenaMap getMap() {
         return map;
@@ -57,14 +63,14 @@ public class Arena {
         this.combatants = combatants;
     }
 
-    public void playerKilled(Player who) {
+    public void playerKilled(Player who, DeathType cause) {
         if(who != null)
             who.setMaximumNoDamageTicks(20); /* Reset hit delay */
 
         combatants.stream().filter(t -> t.getPlayers().contains(who)).findAny()
                 .ifPresent(arenaTeam -> arenaTeam.getPlayers().remove(who));
 
-       spectate(who);
+        spectate(who);
 
         if(getTotalPlayerCount() <= 1) {
             stop();
@@ -112,6 +118,8 @@ public class Arena {
             team.getPlayers().add(joining);
         }
         cachedSpectatorLocations.put(joining, joining.getLocation());
+        cachedInventories.put(joining, joining.getInventory().getContents());
+        cachedArmor.put(joining, joining.getInventory().getArmorContents());
     }
 
     public void playerKick(Player toKick, String reason) {
@@ -134,7 +142,22 @@ public class Arena {
         spectator.setAllowFlight(false);
         spectator.setFlying(false);
 
+        /* Since we don't know if the arena was in another world,
+           we clear the inventory as requested before teleporting. */
+        if(ConfigEntries.ARENA_KIT_RESET == KitDispatcherType.CLEAR) {
+            spectator.getInventory().clear();
+            spectator.updateInventory();
+        }
+
         spectator.teleport(cachedSpectatorLocations.get(spectator));
+
+        /* Now we give the items back in the world they belong. */
+        if(ConfigEntries.ARENA_KIT_RESET == KitDispatcherType.RESET) {
+            spectator.getInventory().setContents(cachedInventories.get(spectator));
+            spectator.getInventory().setArmorContents(cachedArmor.get(spectator));
+
+            spectator.updateInventory();
+        }
     }
 
     public void stop() {
