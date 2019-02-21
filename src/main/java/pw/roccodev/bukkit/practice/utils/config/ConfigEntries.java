@@ -9,7 +9,7 @@ public class ConfigEntries {
 
     public static String INFO_PREFIX, ERROR_PREFIX;
 
-    public static String E_PERM, E_404, E_KICK;
+    public static String E_PERM, E_404, E_KICK, E_NOTINARENA;
 
     public static String PING_RESULT;
 
@@ -35,6 +35,7 @@ public class ConfigEntries {
         E_PERM = ERROR_PREFIX + c(config.getString("error.permission"));
         E_404 = ERROR_PREFIX + c(config.getString("error.notfound"));
         E_KICK = c(config.getString("error.arena.kick"));
+        E_NOTINARENA = c(config.getString("error.arena.playernotfound"));
 
         PING_RESULT = INFO_PREFIX + c(config.getString("ping.result"));
 

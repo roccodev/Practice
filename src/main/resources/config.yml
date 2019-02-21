@@ -57,6 +57,11 @@ error.notfound: "Could not find player %1$s."
 # %1$s - The reason for the kick
 error.arena.kick: "You have been kicked from the arena. Reason:&c %1$s"
 
+# This error is thrown when a player tries to spectate a player who isn't in an arena.
+# Parameters:
+# %1$s - The player name
+error.arena.playernotfound: "Player %1$s is not playing."
+
 ## ARENA
 
 # The Y coordinate of the arena (used by the generator).

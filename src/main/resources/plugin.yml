@@ -17,6 +17,10 @@ commands:
   ping:
     description: "See someone's ping"
     usage: "/ping [player]"
+  spectate:
+    description: "Spectate a player"
+    usage: "/spectate <player>"
+    aliases: ["spec"]
 permissions:
   practice.*:
     description: "Gives admin access to the plugin."
@@ -28,6 +32,7 @@ permissions:
       practice.report.receive: true
       practice.ping: true
       practice.ping.others: true
+      practice.spectate: true
   practice.duel:
     description: "/duel command"
     default: true
@@ -41,3 +46,5 @@ permissions:
     default: true
   practice.ping.others:
     description: "/ping someone else"
+  practice.spectate:
+    description: "Spectate a player using /spectate"

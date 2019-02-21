@@ -11,7 +11,9 @@ public enum Permission {
     PING_OTHERS("ping.others"),
 
     REPORT("report"),
-    REPORT_RECEIVE("report.receive");
+    REPORT_RECEIVE("report.receive"),
+
+    SPECTATE("spectate");
 
     private String permission;
 
