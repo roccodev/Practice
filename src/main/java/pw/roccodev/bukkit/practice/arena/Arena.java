@@ -117,6 +117,7 @@ public class Arena {
             who.getInventory().clear();
             clearPlayerArmor(who);
             who.updateInventory();
+            who.setHealth(who.getMaxHealth());
         }
 
 
@@ -265,6 +266,7 @@ public class Arena {
         broadcast(String.format(ConfigEntries.ARENA_SPECLEAVE, spectator.getName()));
         spectator.setAllowFlight(false);
         spectator.setFlying(false);
+        spectator.setHealth(spectator.getMaxHealth());
         spectator.setMaximumNoDamageTicks(20);
 
         /* Since we don't know if the arena was in another world,
@@ -314,7 +316,7 @@ public class Arena {
 
         combatants.clear();
         awaitingTeam.clear();
-        spectators.clear();
+        new HashSet<>(spectators).forEach(this::stopSpectating);
         Arenas.arenas.remove(this);
     }
 
