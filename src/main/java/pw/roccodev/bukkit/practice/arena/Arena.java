@@ -1,10 +1,12 @@
 package pw.roccodev.bukkit.practice.arena;
 
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import pw.roccodev.bukkit.practice.arena.kit.KitDispatcherType;
 import pw.roccodev.bukkit.practice.arena.kit.Kits;
 import pw.roccodev.bukkit.practice.arena.listener.DeathType;
@@ -13,9 +15,7 @@ import pw.roccodev.bukkit.practice.arena.team.TeamAssigner;
 import pw.roccodev.bukkit.practice.utils.CollUtils;
 import pw.roccodev.bukkit.practice.utils.config.ConfigEntries;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Arena {
@@ -32,10 +32,11 @@ public class Arena {
 
     private HashMap<Player, Location> cachedSpectatorLocations = new HashMap<>();
     private List<Player> awaitingTeam = new ArrayList<>();
-    private HashMap<Player, ItemStack[]> cachedInventories = new HashMap<>();
-    private HashMap<Player, ItemStack[]> cachedArmor = new HashMap<>();
+    private HashMap<Player, PlayerData.InventoryData> cachedInventories = new HashMap<>();
 
     private List<Player> invited = new ArrayList<>();
+
+    private Set<Block> playerPlacedBlocks = new HashSet<>();
 
     public Arena(ArenaMap map, ArenaKit kit, int maxTeams) {
         this.map = map == null ? Maps.maps.stream().collect(CollUtils.toShuffledStream()).findAny().get() : map;
@@ -90,6 +91,14 @@ public class Arena {
         this.combatants = combatants;
     }
 
+    public List<Player> getSpectators() {
+        return spectators;
+    }
+
+    public Set<Block> getPlayerPlacedBlocks() {
+        return playerPlacedBlocks;
+    }
+
     public void playerKilled(Player who, DeathType cause) {
         if(who != null)
             who.setMaximumNoDamageTicks(20); /* Reset hit delay */
@@ -98,6 +107,14 @@ public class Arena {
                 .ifPresent(arenaTeam -> arenaTeam.getPlayers().remove(who));
 
         spectate(who);
+
+        if(who != null) {
+            DeathMessage.sendDeathMessage(this, who, who.getKiller());
+            who.getInventory().clear();
+            clearPlayerArmor(who);
+            who.updateInventory();
+        }
+
 
         if(getTotalPlayerCount() <= 1) {
             System.out.println("Stopping arena " + id);
@@ -147,7 +164,25 @@ public class Arena {
         }
     }
 
+    public void broadcast(BaseComponent message) {
+        for(Player awaiting : awaitingTeam) {
+            awaiting.spigot().sendMessage(message);
+        }
+
+        for(ArenaTeam team : combatants) {
+            for(Player player : team.getPlayers()) {
+                player.spigot().sendMessage(message);
+            }
+        }
+
+        for(Player spec : spectators) {
+            spec.spigot().sendMessage(message);
+        }
+    }
+
     public void start() {
+
+        state = ArenaState.PREGAME;
 
         /* Load the map */
         // MapGenerator.generateMap(map);
@@ -170,8 +205,14 @@ public class Arena {
         for(ArenaTeam team : combatants) {
             for(Player player : team.getPlayers()) {
                 kit.apply(player);
+
+                player.setHealth(player.getMaxHealth());
+                player.setFoodLevel(20);
+                player.setSaturation(20);
             }
         }
+
+        state = ArenaState.GAME;
 
     }
 
@@ -181,15 +222,17 @@ public class Arena {
 
     public void playerJoin(Player joining, ArenaTeam team) {
         invited.remove(joining);
+        Arenas.voidRequests(joining);
+
         if(team == null) {
             awaitingTeam.add(joining);
         }
         else {
             team.getPlayers().add(joining);
         }
+
         cachedSpectatorLocations.put(joining, joining.getLocation());
-        cachedInventories.put(joining, joining.getInventory().getContents());
-        cachedArmor.put(joining, joining.getInventory().getArmorContents());
+        cachedInventories.put(joining, new PlayerData.InventoryData(joining));
         broadcast(String.format(ConfigEntries.ARENA_JOIN, joining.getName()));
 
         if(awaitingTeam.size() >= maxTeams) start();
@@ -223,6 +266,7 @@ public class Arena {
            we clear the inventory as requested before teleporting. */
         if(ConfigEntries.ARENA_KIT_RESET == KitDispatcherType.CLEAR) {
             spectator.getInventory().clear();
+            clearPlayerArmor(spectator);
             spectator.updateInventory();
         }
 
@@ -230,14 +274,28 @@ public class Arena {
 
         /* Now we give the items back in the world they belong. */
         if(ConfigEntries.ARENA_KIT_RESET == KitDispatcherType.RESET) {
-            spectator.getInventory().setContents(cachedInventories.get(spectator));
-            spectator.getInventory().setArmorContents(cachedArmor.get(spectator));
+
+            PlayerData.InventoryData data = cachedInventories.get(spectator);
+
+            spectator.getInventory().setContents(data.getContents());
+            spectator.getInventory().setArmorContents(data.getArmorContents());
 
             spectator.updateInventory();
         }
     }
 
+    private void clearPlayerArmor(Player player) {
+        PlayerInventory inv = player.getInventory();
+        inv.setHelmet(null);
+        inv.setChestplate(null);
+        inv.setLeggings(null);
+        inv.setBoots(null);
+    }
+
     public void stop() {
+        combatants.clear();
+        awaitingTeam.clear();
+        spectators.clear();
         Arenas.arenas.remove(this);
     }
 

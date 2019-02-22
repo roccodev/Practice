@@ -4,14 +4,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pw.roccodev.bukkit.practice.PracticePlugin;
 import pw.roccodev.bukkit.practice.arena.Arena;
-import pw.roccodev.bukkit.practice.arena.ArenaKit;
 import pw.roccodev.bukkit.practice.arena.Arenas;
-import pw.roccodev.bukkit.practice.arena.kit.KitParser;
+import pw.roccodev.bukkit.practice.arena.DeathMessage;
 import pw.roccodev.bukkit.practice.gui.GuiSelectKit;
 import pw.roccodev.bukkit.practice.utils.GetPlayer;
-import pw.roccodev.bukkit.practice.utils.Prefix;
 import pw.roccodev.bukkit.practice.utils.config.ConfigEntries;
 import pw.roccodev.bukkit.practice.utils.permission.Permission;
 
@@ -46,6 +43,12 @@ public class DuelCommand implements CommandExecutor {
                 }
 
                 arena.playerJoin((Player) sender);
+            }
+            else if(mode.equalsIgnoreCase("inventory")) {
+                Player target = GetPlayer.get(sender, args[1]);
+                if(target == null) return true;
+
+                DeathMessage.showInventory(target, (Player) sender);
             }
         }
 

@@ -3,6 +3,9 @@ package pw.roccodev.bukkit.practice.arena.listener;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import pw.roccodev.bukkit.practice.arena.Arena;
@@ -13,10 +16,28 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent event) {
+
+        if(event instanceof EntityDamageByEntityEvent) {
+            EntityDamageByEntityEvent byEntity = (EntityDamageByEntityEvent) event;
+            if(byEntity.getDamager() instanceof Player) {
+                Player damager = (Player) byEntity.getDamager();
+                Arena spec = Arenas.getBySpectator(damager);
+                if(spec != null) {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+        }
+
         if(event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
             Arena arena = Arenas.getByPlayer(player);
-            if(arena == null) return;
+            if(arena == null) {
+                Arena spec = Arenas.getBySpectator(player);
+                if(spec != null)
+                    event.setCancelled(true);
+                return;
+            }
             if(event.getFinalDamage() >= player.getHealth()) {
                 event.setCancelled(true);
                 if(event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE ||
@@ -36,6 +57,29 @@ public class PlayerListener implements Listener {
         if(arena == null) return;
         if(arena.getState() != ArenaState.REQUEST)
             arena.playerKick(leaving, "Logged off.");
+    }
+
+    @EventHandler
+    public void onBlockPlaced(BlockPlaceEvent event) {
+        Arena arena = Arenas.getByPlayer(event.getPlayer());
+        if(arena != null) {
+            arena.getPlayerPlacedBlocks().add(event.getBlockPlaced());
+        }
+    }
+
+    @EventHandler
+    public void onBlockBroken(BlockBreakEvent event) {
+        Arena arena = Arenas.getByGenericPlayer(event.getPlayer());
+        if(arena == null) return;
+
+        if(arena.getSpectators().contains(event.getPlayer())) {
+            event.setCancelled(true);
+            return;
+        }
+
+        if(!arena.getPlayerPlacedBlocks().contains(event.getBlock())) {
+            event.setCancelled(true);
+        }
     }
 
 }

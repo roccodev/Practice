@@ -28,6 +28,7 @@ public class PracticePlugin extends JavaPlugin {
         FileCheck.initDirs();
 
         ConfigEntries.init(getConfig());
+        getConfig().options().copyDefaults(true);
         saveDefaultConfig();
 
         /* Load kits, maps, etc. */

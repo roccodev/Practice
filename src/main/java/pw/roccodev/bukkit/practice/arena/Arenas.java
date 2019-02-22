@@ -25,5 +25,30 @@ public class Arenas {
         return null;
     }
 
+    public static void voidRequests(Player player) {
+        for(Arena arena : arenas) {
+            if(arena.getState() == ArenaState.REQUEST)
+                arena.getAwaitingTeam().remove(player);
+        }
+    }
+
+    public static Arena getBySpectator(Player player) {
+        for(Arena arena : arenas) {
+            if(arena.getSpectators().contains(player))
+                return arena;
+        }
+        return null;
+    }
+
+    public static Arena getByGenericPlayer(Player player) {
+        for(Arena arena : arenas) {
+            if(arena.getAwaitingTeam().contains(player)
+                    || arena.getSpectators().contains(player)
+                    || arena.getCombatants().stream().anyMatch(team -> team.getPlayers().contains(player)))
+                return arena;
+        }
+        return null;
+    }
+
 
 }

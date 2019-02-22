@@ -109,6 +109,26 @@ arena.spectator.join: "&a%1$s&7 is now spectating."
 # %1$s - The player
 arena.spectator.leave: "&a%1$s&7 is no longer spectating."
 
+# Whether the spectators should be able to break blocks.
+arena.spectator.interact: false
+
+# Whether the players should only be able to break player-placed blocks.
+arena.interact.player: true
+
+# The message shown when a player dies.
+# Parameters:
+# %1$s - The dead player
+# %2$s - The killer
+arena.death.player: "&c%1$s&7 was killed by &a%2$s&7. Click here to view inventories."
+
+# The message shown when a player dies, but the killer is unknown.
+# Parameters:
+# %1$s - The dead player
+arena.death.unknown: "&c%1$s&7 died. Click here to view inventory."
+
+# Whether the message above should be clickable, and open the players' inventory.
+arena.death.inventory: true
+
 
 ## /ping COMMAND
 

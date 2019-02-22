@@ -34,7 +34,7 @@ public class GuiSelectKit implements Listener {
         }
 
         guiInventory.setContents(contents.toArray(new ItemStack[0]));
-
+        
         Bukkit.getPluginManager().registerEvents(this, PracticePlugin.INST);
     }
 
