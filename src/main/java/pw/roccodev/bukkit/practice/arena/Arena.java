@@ -302,7 +302,7 @@ public class Arena {
         ArenaTeam winner = combatants.get(0);
 
         broadcast(String.format(ConfigEntries.ARENA_END,
-                "Red",
+                winner.getPrototype().getName(),
                 String.join(",", winner.getPlayers().stream().map(Player::getName).collect(Collectors.toList())),
                 winner.getPlayers().size(),
                 String.join(",", spectators.stream().map(Player::getName).collect(Collectors.toList())),
