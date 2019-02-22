@@ -129,6 +129,17 @@ arena.death.unknown: "&c%1$s&7 died. Click here to view inventory."
 # Whether the message above should be clickable, and open the players' inventory.
 arena.death.inventory: true
 
+# The message shown when a match ends.
+# Parameters:
+# %1$s - The winning team (team name)
+# %2$s - The winning team (player list - Player1, Player2)
+# %3$s - The winning team (no. players)
+# %4$s - Spectators (Player1, Player2)
+# %5$s - Spectators (amount)
+# %6$s - Info prefix (see prefix.info)
+# Note: use \n for newlines.
+arena.end: "The match has ended.\n%6$s&aWinners (%3$s): %2$s\n%6$s&eSpectators (%5$s): %4$s"
+
 
 ## /ping COMMAND
 

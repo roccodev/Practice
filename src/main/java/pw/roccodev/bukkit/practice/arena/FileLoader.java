@@ -6,9 +6,11 @@ import pw.roccodev.bukkit.practice.PracticePlugin;
 import pw.roccodev.bukkit.practice.arena.kit.KitParser;
 import pw.roccodev.bukkit.practice.arena.kit.Kits;
 import pw.roccodev.bukkit.practice.arena.map.Maps;
+import pw.roccodev.bukkit.practice.arena.proto.TeamPrototype;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class FileLoader {
 
@@ -40,10 +42,28 @@ public class FileLoader {
         }
     }
 
+    private static void loadTeams() throws IOException {
+        File teamsFile = new File(PracticePlugin.PLUGIN_DIR + "/teams.yml");
+        if(!teamsFile.exists()) {
+            teamsFile.createNewFile();
+        }
+        YamlConfiguration config = new YamlConfiguration();
+        config.options().copyDefaults(true);
+        config.addDefault("teams", Arrays.asList("&cRed", "&eYellow", "&aGreen"));
+        config.save(teamsFile);
+
+        for(String s : config.getStringList("teams")) {
+            new TeamPrototype(s);
+        }
+
+
+    }
+
     public static void loadEverything() {
         try {
            loadAllKits();
            loadAllMaps();
+           loadTeams();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

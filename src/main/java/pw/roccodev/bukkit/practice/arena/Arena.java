@@ -13,10 +13,12 @@ import pw.roccodev.bukkit.practice.arena.listener.DeathType;
 import pw.roccodev.bukkit.practice.arena.map.Maps;
 import pw.roccodev.bukkit.practice.arena.team.TeamAssigner;
 import pw.roccodev.bukkit.practice.utils.CollUtils;
+import pw.roccodev.bukkit.practice.utils.Prefix;
 import pw.roccodev.bukkit.practice.utils.config.ConfigEntries;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class Arena {
 
@@ -106,6 +108,8 @@ public class Arena {
         combatants.stream().filter(t -> t.getPlayers().contains(who)).findAny()
                 .ifPresent(arenaTeam -> arenaTeam.getPlayers().remove(who));
 
+        combatants.removeIf(t -> t.getPlayers().size() == 0);
+
         spectate(who);
 
         if(who != null) {
@@ -116,7 +120,7 @@ public class Arena {
         }
 
 
-        if(getTotalPlayerCount() <= 1) {
+        if(combatants.size() <= 1) {
             System.out.println("Stopping arena " + id);
             stop();
         }
@@ -261,6 +265,7 @@ public class Arena {
         broadcast(String.format(ConfigEntries.ARENA_SPECLEAVE, spectator.getName()));
         spectator.setAllowFlight(false);
         spectator.setFlying(false);
+        spectator.setMaximumNoDamageTicks(20);
 
         /* Since we don't know if the arena was in another world,
            we clear the inventory as requested before teleporting. */
@@ -293,6 +298,18 @@ public class Arena {
     }
 
     public void stop() {
+
+        ArenaTeam winner = combatants.get(0);
+
+        broadcast(String.format(ConfigEntries.ARENA_END,
+                "Red",
+                String.join(",", winner.getPlayers().stream().map(Player::getName).collect(Collectors.toList())),
+                winner.getPlayers().size(),
+                String.join(",", spectators.stream().map(Player::getName).collect(Collectors.toList())),
+                spectators.size(),
+                Prefix.INFO
+                ));
+
         combatants.clear();
         awaitingTeam.clear();
         spectators.clear();

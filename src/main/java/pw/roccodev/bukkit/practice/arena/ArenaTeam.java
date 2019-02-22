@@ -19,4 +19,8 @@ public class ArenaTeam {
     public TeamPrototype getPrototype() {
         return proto;
     }
+
+    public ArenaTeam(TeamPrototype proto) {
+        this.proto = proto;
+    }
 }

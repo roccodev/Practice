@@ -1,13 +1,23 @@
 package pw.roccodev.bukkit.practice.arena.proto;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class TeamPrototype {
 
+    public static Set<TeamPrototype> registeredPrototypes = new HashSet<>();
+
     private String name;
-    private ChatColor color;
 
-    private Location[] spawnPoints;
+    public String getName() {
+        return name;
+    }
 
+    public TeamPrototype(String name) {
+        this.name = ChatColor.translateAlternateColorCodes('&', name);
+
+        registeredPrototypes.add(this);
+    }
 }

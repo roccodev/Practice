@@ -16,7 +16,8 @@ public class ConfigEntries {
 
     public static double ARENA_YLEVEL;
     public static boolean ARENA_SPEC_FLIGHT, ARENA_SPEC_FLIGHTON, ARENA_SPEC_INTERACT, ARENA_PLAYER_INTERACT, ARENA_DEATH_CLICK;
-    public static String ARENA_INVITE, ARENA_JOIN, ARENA_LEAVE, ARENA_SPECJOIN, ARENA_SPECLEAVE, ARENA_DEATH, ARENA_DEATH_U;
+    public static String ARENA_INVITE, ARENA_JOIN, ARENA_LEAVE, ARENA_SPECJOIN, ARENA_SPECLEAVE, ARENA_DEATH, ARENA_DEATH_U,
+                         ARENA_END;
 
     public static KitDispatcherType ARENA_KIT_RESET;
 
@@ -61,6 +62,7 @@ public class ConfigEntries {
         ARENA_SPECLEAVE = INFO_PREFIX + c(config.getString("arena.spectator.leave"));
         ARENA_DEATH = INFO_PREFIX + c(config.getString("arena.death.player"));
         ARENA_DEATH_U = INFO_PREFIX + c(config.getString("arena.death.unknown"));
+        ARENA_END = INFO_PREFIX + c(config.getString("arena.end"));
 
     }
 }

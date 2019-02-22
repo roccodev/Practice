@@ -34,7 +34,7 @@ public class GuiSelectKit implements Listener {
         }
 
         guiInventory.setContents(contents.toArray(new ItemStack[0]));
-        
+
         Bukkit.getPluginManager().registerEvents(this, PracticePlugin.INST);
     }
 
@@ -51,6 +51,8 @@ public class GuiSelectKit implements Listener {
             Arena arena = new Arena(null, kit, teams);
             arena.invitePlayer(target, event.getWhoClicked().getName());
             arena.playerJoin((Player)event.getWhoClicked());
+
+            InventoryClickEvent.getHandlerList().unregister(this);
 
             event.getWhoClicked().closeInventory();
         }
