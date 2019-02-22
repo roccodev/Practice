@@ -310,6 +310,8 @@ public class Arena {
                 Prefix.INFO
                 ));
 
+        winner.getPlayers().forEach(this::stopSpectating);
+
         combatants.clear();
         awaitingTeam.clear();
         spectators.clear();
