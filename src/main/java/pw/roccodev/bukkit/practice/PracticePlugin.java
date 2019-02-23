@@ -29,6 +29,7 @@ public class PracticePlugin extends JavaPlugin {
 
         ConfigEntries.init(getConfig());
         getConfig().options().copyDefaults(true);
+        getConfig().options().copyHeader(true);
         saveDefaultConfig();
 
         /* Load kits, maps, etc. */
