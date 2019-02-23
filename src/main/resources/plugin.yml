@@ -21,6 +21,9 @@ commands:
     description: "Spectate a player"
     usage: "/spectate <player>"
     aliases: ["spec"]
+  rtp:
+    description: "Teleport to a player"
+    usage: "/rtp <player>"
 permissions:
   practice.*:
     description: "Gives admin access to the plugin."
@@ -39,7 +42,7 @@ permissions:
   practice.report:
     description: "/report command"
     default: true
-  practice.report.others:
+  practice.report.receive:
     description: "Receives reports"
   practice.ping:
     description: "/ping command"

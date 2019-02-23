@@ -21,6 +21,9 @@ public class ConfigEntries {
 
     public static KitDispatcherType ARENA_KIT_RESET;
 
+    public static String REPORT_NOTIFICATION, REPORT_COOLDOWN_MESSAGE, REPORT_SUCCESSFUL;
+    public static long REPORT_COOLDOWN;
+
 
 
     public static void formatAndSend(CommandSender sendTo, String in, Object... values) {
@@ -63,6 +66,12 @@ public class ConfigEntries {
         ARENA_DEATH = INFO_PREFIX + c(config.getString("arena.death.player"));
         ARENA_DEATH_U = INFO_PREFIX + c(config.getString("arena.death.unknown"));
         ARENA_END = INFO_PREFIX + c(config.getString("arena.end"));
+
+        REPORT_NOTIFICATION = INFO_PREFIX + c(config.getString("report.notification"));
+        REPORT_COOLDOWN_MESSAGE = INFO_PREFIX + c(config.getString("report.cooldown.error"));
+        REPORT_SUCCESSFUL = INFO_PREFIX + c(config.getString("report.successful"));
+
+        REPORT_COOLDOWN = config.getInt("report.cooldown.amount");
 
     }
 }

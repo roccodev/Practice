@@ -150,3 +150,24 @@ arena.end: "The match has ended.\n%6$s&aWinners (%3$s): %2$s\n%6$s&eSpectators (
 # %1$s - The player
 # %2$s - The player's ping, in milliseconds.
 ping.result: "%1$s's ping is %2$sms."
+
+
+## REPORT
+
+# The message shown to moderators when a report is sent.
+# Parameters:
+# %1$s - The sender
+# %2$s - The reported player
+# %3$s - The reason
+report.notification: "&a%2$s &7has been reported by %1$s for &a%3$s&7. Click to investigate."
+
+# The cooldown (in seconds) a player has to wait before submitting a new report.
+report.cooldown.amount: 30
+
+# The message shown when a player has to wait before submitting a new report.
+# Parameters:
+# %1$s - The seconds left
+report.cooldown.error: "You need to wait &c%1$s &7more seconds before submitting a report."
+
+# The message shown when a report has been succesfully sent.
+report.successful: "Succesfully submitted report."
