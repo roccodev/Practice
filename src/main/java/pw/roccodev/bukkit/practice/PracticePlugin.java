@@ -6,6 +6,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pw.roccodev.bukkit.practice.arena.FileLoader;
 import pw.roccodev.bukkit.practice.arena.listener.PlayerListener;
 import pw.roccodev.bukkit.practice.commands.*;
+import pw.roccodev.bukkit.practice.stats.SQLiteStatsManager;
+import pw.roccodev.bukkit.practice.stats.StatsManager;
 import pw.roccodev.bukkit.practice.utils.FileCheck;
 import pw.roccodev.bukkit.practice.utils.config.ConfigEntries;
 import pw.roccodev.bukkit.practice.utils.metrics.MetricsLite;
@@ -16,6 +18,7 @@ public class PracticePlugin extends JavaPlugin {
 
     public static File PLUGIN_DIR;
     public static PracticePlugin INST;
+    public static StatsManager STATS_MGR;
 
     @Override
     public void onEnable() {
@@ -45,6 +48,9 @@ public class PracticePlugin extends JavaPlugin {
         new MetricsLite(this); /* Metrics */
 
         PluginCompat.check();
+
+        STATS_MGR = new SQLiteStatsManager();
+        STATS_MGR.load();
     }
 
     @Override

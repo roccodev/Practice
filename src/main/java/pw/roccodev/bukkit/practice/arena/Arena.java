@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
+import pw.roccodev.bukkit.practice.PracticePlugin;
 import pw.roccodev.bukkit.practice.arena.kit.KitDispatcherType;
 import pw.roccodev.bukkit.practice.arena.kit.Kits;
 import pw.roccodev.bukkit.practice.arena.listener.DeathType;
@@ -118,6 +119,9 @@ public class Arena {
             clearPlayerArmor(who);
             who.updateInventory();
             who.setHealth(who.getMaxHealth());
+            PracticePlugin.STATS_MGR.incrementStatistic(uuidStripped(who), "deaths");
+            if(who.getKiller() != null)
+                PracticePlugin.STATS_MGR.incrementStatistic(uuidStripped(who.getKiller()), "kills");
         }
 
 
@@ -214,11 +218,17 @@ public class Arena {
                 player.setHealth(player.getMaxHealth());
                 player.setFoodLevel(20);
                 player.setSaturation(20);
+
+                PracticePlugin.STATS_MGR.incrementStatistic(uuidStripped(player), "played");
             }
         }
 
         state = ArenaState.GAME;
 
+    }
+
+    private String uuidStripped(Player player) {
+        return player.getUniqueId().toString().replace("-", "");
     }
 
     public void playerJoin(Player joining) {
@@ -240,11 +250,14 @@ public class Arena {
         cachedInventories.put(joining, new PlayerData.InventoryData(joining));
         broadcast(String.format(ConfigEntries.ARENA_JOIN, joining.getName()));
 
+        PracticePlugin.STATS_MGR.addProfile(uuidStripped(joining));
+
         if(awaitingTeam.size() >= maxTeams) start();
     }
 
     public void playerKick(Player toKick, String reason) {
         ConfigEntries.formatAndSend(toKick, ConfigEntries.E_KICK, reason);
+        PracticePlugin.STATS_MGR.incrementStatistic(uuidStripped(toKick), "forfeits");
         if(!spectators.contains(toKick))
             playerKilled(toKick, DeathType.FORFEIT);
         stopSpectating(toKick);
@@ -312,7 +325,10 @@ public class Arena {
                 Prefix.INFO
                 ));
 
-        winner.getPlayers().forEach(this::stopSpectating);
+        winner.getPlayers().forEach(w -> {
+            stopSpectating(w);
+            PracticePlugin.STATS_MGR.incrementStatistic(uuidStripped(w), "victories");
+        });
 
         combatants.clear();
         awaitingTeam.clear();
