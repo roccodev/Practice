@@ -29,4 +29,12 @@ public class StatsProfile {
         return forfeits;
     }
 
+    public StatsProfile(String uuid, long kills, long deaths, long victories, long played, long forfeits) {
+        this.uuid = uuid;
+        this.kills = kills;
+        this.deaths = deaths;
+        this.victories = victories;
+        this.played = played;
+        this.forfeits = forfeits;
+    }
 }

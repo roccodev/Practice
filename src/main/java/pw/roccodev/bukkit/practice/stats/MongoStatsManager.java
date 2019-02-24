@@ -22,7 +22,7 @@ public class MongoStatsManager implements StatsManager {
     }
 
     @Override
-    public <T> T getStatistic(String profile, String statistic) {
+    public StatsProfile buildProfile(String uuid) {
         return null;
     }
 }

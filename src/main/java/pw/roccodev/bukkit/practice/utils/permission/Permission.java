@@ -1,7 +1,6 @@
 package pw.roccodev.bukkit.practice.utils.permission;
 
 import org.bukkit.command.CommandSender;
-import pw.roccodev.bukkit.practice.utils.Prefix;
 import pw.roccodev.bukkit.practice.utils.config.ConfigEntries;
 
 public enum Permission {
@@ -15,6 +14,9 @@ public enum Permission {
     REPORT_RECEIVE("report.receive"),
 
     SPECTATE("spectate"),
+
+    STATS("stats"),
+    STATS_OTHERS("stats.others"),
 
     INFO("info"),
     ADMIN("admin");

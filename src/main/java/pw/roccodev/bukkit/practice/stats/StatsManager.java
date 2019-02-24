@@ -10,6 +10,6 @@ public interface StatsManager {
 
      void addProfile(String profile);
 
-     <T> T getStatistic(String profile, String statistic);
+     StatsProfile buildProfile(String uuid);
 
 }

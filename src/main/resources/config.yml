@@ -171,3 +171,17 @@ report.cooldown.error: "You need to wait &c%1$s &7more seconds before submitting
 
 # The message shown when a report has been succesfully sent.
 report.successful: "Succesfully submitted report."
+
+
+## STATS
+
+# The message shown by the /stats command.
+# Parameters:
+# %1$s - Kills
+# %2$s - Deaths
+# %3$s - Victories
+# %4$s - Games played
+# %5$s - Forfeits
+# %6$s - Player name
+# %7$s - Info prefix (see prefix.info)
+stats.overview: "Showing &a%6$s&7's stats:\n%7$sKills:&a %1$s&7\n%7$sDeaths:&a %2$s&7\n%7$sVictories:&a %3$s&7\n%7$sPlayed:&a %4$s&7\n%7$sForfeits:&a %5$s"

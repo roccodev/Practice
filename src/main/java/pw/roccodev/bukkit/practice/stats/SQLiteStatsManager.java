@@ -70,14 +70,16 @@ public class SQLiteStatsManager implements StatsManager {
     }
 
     @Override
-    public <T> T getStatistic(String profile, String statistic) {
-        String sql = "SELECT " + statistic + " FROM player_stats WHERE uuid = '" + profile + "'";
-
+    public StatsProfile buildProfile(String uuid) {
         try(Connection connection = connect()) {
+            String sql = "SELECT kills, deaths, victories, played, forfeits FROM player_stats WHERE uuid = '" + uuid + "'";
+
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
+
             if(rs.next()) {
-                return (T) rs.getObject(statistic);
+                return new StatsProfile(uuid, rs.getLong("kills"), rs.getLong("deaths"), rs.getLong("victories"),
+                        rs.getLong("played"), rs.getLong("forfeits"));
             }
         }
         catch (SQLException e) {

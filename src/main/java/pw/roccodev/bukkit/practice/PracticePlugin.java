@@ -41,6 +41,7 @@ public class PracticePlugin extends JavaPlugin {
         getCommand("duel").setExecutor(new DuelCommand());
         getCommand("report").setExecutor(new ReportCommand());
         getCommand("rtp").setExecutor(new ReportTPCommand());
+        getCommand("stats").setExecutor(new StatsCommand());
 
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new PlayerListener(), this);

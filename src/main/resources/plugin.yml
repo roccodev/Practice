@@ -21,6 +21,10 @@ commands:
     description: "Spectate a player"
     usage: "/spectate <player>"
     aliases: ["spec"]
+  stats:
+    description: "See someone's stats"
+    usage: "/stats [player]"
+    aliases: ["records"]
   rtp:
     description: "Teleport to a player"
     usage: "/rtp <player>"
@@ -54,6 +58,12 @@ permissions:
     default: true
   practice.info:
     description: "Run the /practice command"
+    default: true
+  practice.stats:
+    description: "Run the /stats command"
+    default: true
+  practice.stats.others:
+    description: "Check someone else's stats"
     default: true
   practice.admin:
     description: "Allows to use the admin features of the /practice command"

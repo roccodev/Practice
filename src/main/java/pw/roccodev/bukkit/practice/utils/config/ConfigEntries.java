@@ -24,6 +24,8 @@ public class ConfigEntries {
     public static String REPORT_NOTIFICATION, REPORT_COOLDOWN_MESSAGE, REPORT_SUCCESSFUL;
     public static long REPORT_COOLDOWN;
 
+    public static String STATS_OVERVIEW;
+
 
 
     public static void formatAndSend(CommandSender sendTo, String in, Object... values) {
@@ -72,6 +74,8 @@ public class ConfigEntries {
         REPORT_SUCCESSFUL = INFO_PREFIX + c(config.getString("report.successful"));
 
         REPORT_COOLDOWN = config.getInt("report.cooldown.amount");
+
+        STATS_OVERVIEW = INFO_PREFIX + c(config.getString("stats.overview"));
 
     }
 }
