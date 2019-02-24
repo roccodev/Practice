@@ -87,7 +87,7 @@ public class ArenaKit {
     }
 
     public int getHitDelay() {
-        return noHitDelay ? 20 : hitDelay;
+        return !noHitDelay ? 20 : hitDelay;
     }
 
     public boolean isPots() {
