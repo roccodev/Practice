@@ -28,8 +28,11 @@ public class KitParser {
         List<ItemStack> items = (List<ItemStack>) yaml.getList("items");
         List<ItemStack> armor = (List<ItemStack>) yaml.getList("armor");
 
+        boolean hunger = yaml.getBoolean("hunger", true);
+        int maxHealth = yaml.getInt("maxhealth", 20);
+
         return new ArenaKit(name, description, hitDelay, icon, hitDelayValue, items.toArray(new ItemStack[0]),
-                armor.toArray(new ItemStack[0]), fileName);
+                armor.toArray(new ItemStack[0]), fileName, hunger, maxHealth);
 
     }
 
@@ -49,6 +52,9 @@ public class KitParser {
         config.set("armor", kit.getArmor());
         config.set("hasnohitdelay", kit.hasNoHitDelay());
         config.set("hitdelay", kit.getHitDelay());
+
+        config.set("hunger", kit.isHungerEnabled());
+        config.set("maxhealth", kit.getMaxHealth());
 
         try {
             config.save(file);

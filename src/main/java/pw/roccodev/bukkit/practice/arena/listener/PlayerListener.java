@@ -7,6 +7,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import pw.roccodev.bukkit.practice.arena.Arena;
 import pw.roccodev.bukkit.practice.arena.ArenaState;
@@ -79,6 +80,19 @@ public class PlayerListener implements Listener {
 
         if(!arena.getPlayerPlacedBlocks().contains(event.getBlock())) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onHunger(FoodLevelChangeEvent event) {
+        if(!(event.getEntity() instanceof Player)) return;
+        Arena arena = Arenas.getByPlayer((Player)event.getEntity());
+        if(arena != null) {
+            if(!arena.getKit().isHungerEnabled()) event.setCancelled(true);
+        }
+        else {
+            arena = Arenas.getBySpectator((Player)event.getEntity());
+            if(arena != null && !arena.getKit().isHungerEnabled()) event.setCancelled(true);
         }
     }
 

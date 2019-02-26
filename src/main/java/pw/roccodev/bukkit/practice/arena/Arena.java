@@ -215,9 +215,10 @@ public class Arena {
             for(Player player : team.getPlayers()) {
                 kit.apply(player);
 
-                player.setHealth(player.getMaxHealth());
                 player.setFoodLevel(20);
                 player.setSaturation(20);
+                player.setMaxHealth(kit.getMaxHealth());
+                player.setHealth(player.getMaxHealth());
 
                 PracticePlugin.STATS_MGR.incrementStatistic(uuidStripped(player), "played");
             }
@@ -279,7 +280,9 @@ public class Arena {
         broadcast(String.format(ConfigEntries.ARENA_SPECLEAVE, spectator.getName()));
         spectator.setAllowFlight(false);
         spectator.setFlying(false);
+        spectator.setMaxHealth(20d);
         spectator.setHealth(spectator.getMaxHealth());
+        spectator.setFoodLevel(20);
         spectator.setMaximumNoDamageTicks(20);
 
         /* Since we don't know if the arena was in another world,

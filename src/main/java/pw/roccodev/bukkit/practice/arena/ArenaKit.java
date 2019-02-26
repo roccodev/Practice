@@ -24,6 +24,10 @@ public class ArenaKit {
     private ItemStack[] inventory;
     private ItemStack[] armor;
 
+    private boolean hungerEnabled = true;
+
+    private int maxHealth = 20;
+
     public String getName() {
         return name;
     }
@@ -37,7 +41,7 @@ public class ArenaKit {
     }
 
     public ArenaKit(String name, String description, boolean noHitDelay, ItemStack icon, int hitDelay, ItemStack[] inventory,
-                    ItemStack[] armor, String fileName) {
+                    ItemStack[] armor, String fileName, boolean hunger, int maxHealth) {
         this.name = name;
         this.description = description;
         this.noHitDelay = noHitDelay;
@@ -46,6 +50,9 @@ public class ArenaKit {
         this.inventory = inventory;
         this.fileName = fileName;
         this.armor = armor;
+
+        this.hungerEnabled = hunger;
+        this.maxHealth = maxHealth;
 
         initIcon();
     }
@@ -98,6 +105,14 @@ public class ArenaKit {
     public boolean isSoups() {
         return Arrays.stream(inventory).anyMatch(item ->
                 item.getType() == Material.MUSHROOM_SOUP);
+    }
+
+    public boolean isHungerEnabled() {
+        return hungerEnabled;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
     public ItemStack[] getInventory() {
