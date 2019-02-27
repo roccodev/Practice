@@ -220,6 +220,8 @@ public class Arena {
                 player.setMaxHealth(kit.getMaxHealth());
                 player.setHealth(player.getMaxHealth());
 
+                player.getActivePotionEffects().clear();
+
                 PracticePlugin.STATS_MGR.incrementStatistic(uuidStripped(player), "played");
             }
         }
@@ -302,6 +304,8 @@ public class Arena {
 
             spectator.getInventory().setContents(data.getContents());
             spectator.getInventory().setArmorContents(data.getArmorContents());
+            spectator.getActivePotionEffects().clear();
+            spectator.getActivePotionEffects().addAll(data.getActiveEffects());
 
             spectator.updateInventory();
         }
