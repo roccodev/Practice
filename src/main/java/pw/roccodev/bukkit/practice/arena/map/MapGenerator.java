@@ -22,7 +22,7 @@ public class MapGenerator {
     private static void generateMap(ArenaMap map, MapGenerationType type) {
         switch (type) {
             case RANDOM:
-                generateMap(map);
+                generateRandom(map);
                 break;
             case WORLD:
                 if(Arenas.getByWorldAndPlaying(map.getWorld()) != null) {
@@ -42,15 +42,15 @@ public class MapGenerator {
             return;
         }
         ThreadLocalRandom rand = ThreadLocalRandom.current();
-        int start = rand.nextInt(20, 50000000);
+        int start = rand.nextInt(20, 6000000);
         int mult = rand.nextInt(1, 5);
 
         double total = start * mult;
 
-        World w = map.getWorld();
+        World w = Bukkit.getWorlds().get(0);
         Location target = new Location(w, total, ConfigEntries.ARENA_YLEVEL, total);
 
-        SchematicUtils.pasteSchematic(map.getName(), target, w);
+        SchematicUtils.pasteSchematic(map, target);
 
     }
 

@@ -31,4 +31,7 @@ public class ArenaMap {
         this.name = schem.getName().split("\\.")[0];
     }
 
+    public String getSchemFile() {
+        return schemFile.getName();
+    }
 }

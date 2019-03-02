@@ -31,7 +31,7 @@ public class FileLoader {
     }
 
     private static void loadAllMaps() {
-        File mapsDir = new File(PracticePlugin.PLUGIN_DIR + "/maps");
+        File mapsDir = new File(PracticePlugin.PLUGIN_DIR + "/maps/schematics");
         if(!mapsDir.exists()) mapsDir.mkdirs();
 
         for(File mapFile : mapsDir.listFiles()) {

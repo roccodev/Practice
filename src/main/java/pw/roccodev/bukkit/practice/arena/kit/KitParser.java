@@ -1,5 +1,6 @@
 package pw.roccodev.bukkit.practice.arena.kit;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import pw.roccodev.bukkit.practice.PracticePlugin;
@@ -20,8 +21,8 @@ public class KitParser {
         boolean hitDelay = yaml.getBoolean("hasnohitdelay");
         int hitDelayValue = yaml.contains("hitdelay") ? yaml.getInt("hitdelay") : 20;
 
-        String name = yaml.getString("name");
-        String description = yaml.getString("description");
+        String name = ChatColor.translateAlternateColorCodes('&', yaml.getString("name"));
+        String description = ChatColor.translateAlternateColorCodes('&', yaml.getString("description"));
 
         ItemStack icon = ItemSerializer.deserialize(yaml.getString("icon"));
 

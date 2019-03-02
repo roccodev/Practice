@@ -11,6 +11,7 @@ import pw.roccodev.bukkit.practice.PracticePlugin;
 import pw.roccodev.bukkit.practice.arena.kit.KitDispatcherType;
 import pw.roccodev.bukkit.practice.arena.kit.Kits;
 import pw.roccodev.bukkit.practice.arena.listener.DeathType;
+import pw.roccodev.bukkit.practice.arena.map.MapGenerator;
 import pw.roccodev.bukkit.practice.arena.map.Maps;
 import pw.roccodev.bukkit.practice.arena.team.TeamAssigner;
 import pw.roccodev.bukkit.practice.utils.CollUtils;
@@ -194,7 +195,7 @@ public class Arena {
         state = ArenaState.PREGAME;
 
         /* Load the map */
-        // MapGenerator.generateMap(map);
+        MapGenerator.generateMap(map);
 
         /* Assign teams */
         TeamAssigner.assignTeams(this);

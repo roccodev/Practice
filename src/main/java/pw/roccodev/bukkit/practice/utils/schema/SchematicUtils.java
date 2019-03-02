@@ -21,8 +21,10 @@ TODO Complete this class
 
 public class SchematicUtils {
 
-    public static void pasteSchematic(String name, Location result) {
-        File f = getSchematic(name);
+    public static void pasteSchematic(ArenaMap map, Location result) {
+        File f = getSchematic(map.getSchemFile());
+        System.out.println(f.getAbsolutePath());
+        System.out.println(f.exists());
 
         Vector vec = new Vector(result.getBlockX(), result.getBlockY(), result.getBlockZ());
 
@@ -33,6 +35,7 @@ public class SchematicUtils {
         try {
             CuboidClipboard cc = format.load(f);
             cc.paste(es, vec, false);
+            System.out.println("Pasted at " + vec.getBlockX() + " " + vec.getBlockY() + " " + vec.getBlockZ());
             generateSpawnPoints(null, cc, vec);
         }
         catch (Exception ex) {
