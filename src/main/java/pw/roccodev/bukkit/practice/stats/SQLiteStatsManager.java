@@ -70,6 +70,17 @@ public class SQLiteStatsManager implements StatsManager {
     }
 
     @Override
+    public void setStatistic(String profile, String statistic, Object newValue) {
+        try(Connection connection = connect()) {
+            execStatement(connection,
+                    "UPDATE player_stats SET " + statistic + " = " + newValue + " WHERE uuid = '" + profile + "'");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public StatsProfile buildProfile(String uuid) {
         try(Connection connection = connect()) {
             String sql = "SELECT kills, deaths, victories, played, forfeits FROM player_stats WHERE uuid = '" + uuid + "'";

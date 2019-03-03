@@ -25,4 +25,9 @@ public class MySQLStatsManager implements StatsManager {
     public StatsProfile buildProfile(String uuid) {
         return null;
     }
+
+    @Override
+    public void setStatistic(String profile, String statistic, Object newValue) {
+
+    }
 }

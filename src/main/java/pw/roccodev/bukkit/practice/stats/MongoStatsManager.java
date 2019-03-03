@@ -17,6 +17,11 @@ public class MongoStatsManager implements StatsManager {
     }
 
     @Override
+    public void setStatistic(String profile, String statistic, Object newValue) {
+
+    }
+
+    @Override
     public void addProfile(String profile) {
 
     }
