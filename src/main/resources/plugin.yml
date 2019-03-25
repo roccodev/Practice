@@ -2,8 +2,8 @@ name: "Practice"
 version: "1.0"
 description: "PVP Practice plugin"
 author: "RoccoDev"
-website: "https://roccodev.pw/practice"
-main: "pw.roccodev.bukkit.practice.PracticePlugin"
+website: "https://rocco.dev/practice"
+main: "dev.rocco.bukkit.practice.PracticePlugin"
 commands:
   practice:
     description: "Main Practice command"
