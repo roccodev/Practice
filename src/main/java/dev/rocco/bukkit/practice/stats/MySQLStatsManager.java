@@ -30,4 +30,9 @@ public class MySQLStatsManager implements StatsManager {
     public void setStatistic(String profile, String statistic, Object newValue) {
 
     }
+
+    @Override
+    public void loadComplete() {
+
+    }
 }

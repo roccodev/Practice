@@ -20,11 +20,13 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
-    compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT' /* Spigot */
     compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT' /* CraftBukkit */
+    compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT' /* Spigot */
 
     compileOnly 'com.sk89q.worldedit:worldedit-bukkit:6.1.4-SNAPSHOT' /* WorldEdit */
     compileOnly 'com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT' /* WorldEdit */
 
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.25.2' /* SQLite Driver */
 }
+
+jar.destinationDir = new File(System.getenv("OUT_DIR"))

@@ -3,6 +3,7 @@ package dev.rocco.bukkit.practice;
 import dev.rocco.bukkit.practice.arena.FileLoader;
 import dev.rocco.bukkit.practice.arena.listener.PlayerListener;
 import dev.rocco.bukkit.practice.commands.*;
+import dev.rocco.bukkit.practice.stats.SQL;
 import dev.rocco.bukkit.practice.stats.SQLiteStatsManager;
 import dev.rocco.bukkit.practice.stats.StatsManager;
 import dev.rocco.bukkit.practice.utils.FileCheck;
@@ -51,7 +52,7 @@ public class PracticePlugin extends JavaPlugin {
         PluginCompat.check();
 
         STATS_MGR = new SQLiteStatsManager();
-        STATS_MGR.load();
+        SQL.load();
     }
 
     @Override

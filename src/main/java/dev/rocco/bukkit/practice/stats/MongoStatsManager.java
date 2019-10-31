@@ -30,4 +30,9 @@ public class MongoStatsManager implements StatsManager {
     public StatsProfile buildProfile(String uuid) {
         return null;
     }
+
+    @Override
+    public void loadComplete() {
+
+    }
 }

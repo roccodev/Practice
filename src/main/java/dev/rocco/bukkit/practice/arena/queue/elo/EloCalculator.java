@@ -27,7 +27,5 @@ public class EloCalculator {
 
             player.updateElo(newElo);
         }
-
     }
-
 }

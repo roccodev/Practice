@@ -2,101 +2,72 @@ package dev.rocco.bukkit.practice.stats;
 
 import dev.rocco.bukkit.practice.PracticePlugin;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class SQLiteStatsManager implements StatsManager {
 
     @Override
     public void load() {
-
         /* Load driver */
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
 
+    @Override
+    public void loadComplete() {
         initTables();
     }
 
     @Override
     public Connection connect() {
         String connUrl = "jdbc:sqlite:" + PracticePlugin.PLUGIN_DIR.getAbsolutePath() + "/stats.db";
-        Connection conn = null;
+        Connection connection = null;
         try {
-            conn = DriverManager.getConnection(connUrl);
+            connection = DriverManager.getConnection(connUrl);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return conn;
+        return connection;
     }
 
     private void initTables() {
-        try (Connection conn = this.connect()) {
-             execStatement(conn,
-                     "CREATE TABLE IF NOT EXISTS player_stats (uuid text PRIMARY KEY, kills integer, deaths integer, " +
-                     "victories integer, played integer, forfeits integer)");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void execStatement(Connection connection, String statement) throws SQLException {
-        Statement stmt = connection.createStatement();
-        stmt.execute(statement);
+        SQL.run("CREATE TABLE IF NOT EXISTS player_stats (uuid text PRIMARY KEY, kills integer, deaths integer, " +
+                "victories integer, played integer, forfeits integer)");
     }
 
     @Override
     public void addProfile(String profile) {
-        try(Connection connection = connect()) {
-            execStatement(connection,
-                    "INSERT OR IGNORE INTO player_stats (uuid, kills, deaths, victories, played, forfeits) VALUES ('" + profile + "', 0, 0, 0, 0, 0)");
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
+        SQL.run("INSERT OR IGNORE INTO player_stats (uuid, kills, deaths, victories, played, forfeits) VALUES (?, 0, 0, 0, 0, 0)", profile);
     }
 
     @Override
     public void incrementStatistic(String profile, String statistic) {
-        try(Connection connection = connect()) {
-            execStatement(connection,
-                    "UPDATE player_stats SET " + statistic + " = " + statistic + " + 1 WHERE uuid = '" + profile + "'");
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
+        SQL.run("UPDATE player_stats SET ? = ? + 1 WHERE uuid = ?", statistic, statistic, profile);
     }
 
     @Override
     public void setStatistic(String profile, String statistic, Object newValue) {
-        try(Connection connection = connect()) {
-            execStatement(connection,
-                    "UPDATE player_stats SET " + statistic + " = " + newValue + " WHERE uuid = '" + profile + "'");
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
+        SQL.run("UPDATE player_stats SET ? = ? WHERE uuid = ?", statistic, newValue, profile);
     }
 
     @Override
     public StatsProfile buildProfile(String uuid) {
-        try(Connection connection = connect()) {
-            String sql = "SELECT kills, deaths, victories, played, forfeits FROM player_stats WHERE uuid = '" + uuid + "'";
-
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
-            if(rs.next()) {
+        String sql = "SELECT * FROM player_stats WHERE uuid = ?";
+        ResultSet rs = SQL.runQuery(sql, uuid);
+        try {
+            if (rs != null && rs.next()) {
                 return new StatsProfile(uuid, rs.getLong("kills"), rs.getLong("deaths"), rs.getLong("victories"),
                         rs.getLong("played"), rs.getLong("forfeits"));
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 }

@@ -14,4 +14,6 @@ public interface StatsManager {
 
      StatsProfile buildProfile(String uuid);
 
+     void loadComplete();
+
 }

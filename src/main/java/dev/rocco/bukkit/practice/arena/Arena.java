@@ -6,6 +6,9 @@ import dev.rocco.bukkit.practice.arena.kit.Kits;
 import dev.rocco.bukkit.practice.arena.listener.DeathType;
 import dev.rocco.bukkit.practice.arena.map.MapGenerator;
 import dev.rocco.bukkit.practice.arena.map.Maps;
+import dev.rocco.bukkit.practice.arena.queue.QueueType;
+import dev.rocco.bukkit.practice.arena.queue.QueuedPlayer;
+import dev.rocco.bukkit.practice.arena.queue.elo.EloCalculator;
 import dev.rocco.bukkit.practice.arena.team.TeamAssigner;
 import dev.rocco.bukkit.practice.utils.CollUtils;
 import dev.rocco.bukkit.practice.utils.Prefix;
@@ -28,6 +31,9 @@ public class Arena {
     private ArenaMap map;
     private ArenaKit kit;
     private ArenaState state = ArenaState.REQUEST;
+
+    private QueueType type = QueueType.UNRANKED;
+    private QueuedPlayer[] queuedPlayers;
 
     private int maxTeams;
 
@@ -337,6 +343,10 @@ public class Arena {
             stopSpectating(w);
             PracticePlugin.STATS_MGR.incrementStatistic(uuidStripped(w), "victories");
         });
+
+        if(type == QueueType.RANKED) {
+            EloCalculator.updateElo(queuedPlayers, 0);
+        }
 
         combatants.clear();
         awaitingTeam.clear();
