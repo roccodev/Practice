@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2019 RoccoDev
+ * All rights reserved.
+ */
+
 package dev.rocco.bukkit.practice.gui;
 
 import dev.rocco.bukkit.practice.PracticePlugin;

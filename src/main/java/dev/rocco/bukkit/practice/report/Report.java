@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2019 RoccoDev
+ * All rights reserved.
+ */
+
 package dev.rocco.bukkit.practice.report;
 
 import dev.rocco.bukkit.practice.utils.config.ConfigEntries;
