@@ -12,10 +12,10 @@ public class PluginCompat {
 
     public static void check() {
         Plugin we = Bukkit.getPluginManager().getPlugin("WorldEdit");
-        if(we != null && we instanceof WorldEditPlugin) {
+        if(we instanceof WorldEditPlugin) {
             PluginCompat.we = true;
             worldEditPlugin = (WorldEditPlugin) we;
-            Bukkit.getLogger().info("Succesfully enabled WorldEdit support.");
+            Bukkit.getLogger().info("Successfully enabled WorldEdit support.");
         }
         else Bukkit.getLogger().warning("WorldEdit wasn't found, so the 'Random' arena generation type is unavailable.");
     }
