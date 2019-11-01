@@ -31,7 +31,8 @@ public class ConfigEntries {
 
     public static String STATS_OVERVIEW;
 
-
+    public static long QUEUE_TIMEOUT, QUEUE_ELO_SHIFT;
+    public static String QUEUE_JOIN, QUEUE_LEAVE, QUEUE_SEARCH_ELO, QUEUE_UPDATE_ELO;
 
     public static void formatAndSend(CommandSender sendTo, String in, Object... values) {
         sendTo.sendMessage(String.format(in, values));
@@ -82,5 +83,11 @@ public class ConfigEntries {
 
         STATS_OVERVIEW = INFO_PREFIX + c(config.getString("stats.overview"));
 
+        QUEUE_TIMEOUT = config.getLong("queue.ranked.timeout");
+        QUEUE_ELO_SHIFT = config.getLong("queue.ranked.elo_shift");
+        QUEUE_JOIN = INFO_PREFIX + c(config.getString("queue.join"));
+        QUEUE_LEAVE = INFO_PREFIX + c(config.getString("queue.leave"));
+        QUEUE_SEARCH_ELO = INFO_PREFIX + c(config.getString("queue.elo_search"));
+        QUEUE_UPDATE_ELO = INFO_PREFIX + c(config.getString("queue.elo_update"));
     }
 }

@@ -8,6 +8,7 @@ package dev.rocco.bukkit.practice.arena.listener;
 import dev.rocco.bukkit.practice.arena.Arena;
 import dev.rocco.bukkit.practice.arena.ArenaState;
 import dev.rocco.bukkit.practice.arena.Arenas;
+import dev.rocco.bukkit.practice.arena.queue.Queues;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -63,6 +64,7 @@ public class PlayerListener implements Listener {
         if(arena == null) return;
         if(arena.getState() != ArenaState.REQUEST)
             arena.playerKick(leaving, "Logged off.");
+        Queues.removePlayer(leaving);
     }
 
     @EventHandler

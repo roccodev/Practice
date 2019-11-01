@@ -21,7 +21,6 @@ public class TeamAssigner {
 
         int maxTeams = arena.getMaxTeams();
         ArrayList<TeamPrototype> protoPool = new ArrayList<>(TeamPrototype.registeredPrototypes);
-        System.out.println(protoPool.size());
 
         for(int i = 0; i < waiting.size(); i++) {
             Player toAssign = waiting.get(i);

@@ -10,6 +10,9 @@ import dev.rocco.bukkit.practice.arena.kit.KitParser;
 import dev.rocco.bukkit.practice.arena.kit.Kits;
 import dev.rocco.bukkit.practice.arena.map.Maps;
 import dev.rocco.bukkit.practice.arena.proto.TeamPrototype;
+import dev.rocco.bukkit.practice.arena.queue.Queue;
+import dev.rocco.bukkit.practice.arena.queue.QueueType;
+import dev.rocco.bukkit.practice.arena.queue.Queues;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -30,9 +33,13 @@ public class FileLoader {
             YamlConfiguration config = new YamlConfiguration();
             config.load(kitFile);
             KitParser parser = new KitParser(kitFile.getName(), config);
-            Kits.kits.add(parser.parse());
-        }
+            ArenaKit parsed = parser.parse();
 
+            Queues.rankedQueues.put(parsed, new Queue(QueueType.RANKED, parsed));
+            Queues.unrankedQueues.put(parsed, new Queue(QueueType.UNRANKED, parsed));
+
+            Kits.kits.add(parsed);
+        }
     }
 
     private static void loadAllMaps() {

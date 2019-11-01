@@ -21,4 +21,6 @@ public interface StatsManager {
 
      void loadComplete();
 
+     Object getStatistic(String profile, String statistic);
+
 }

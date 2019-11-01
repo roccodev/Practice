@@ -10,7 +10,6 @@ import dev.rocco.bukkit.practice.arena.queue.QueuedPlayer;
 public class EloCalculator {
 
     public static void updateElo(QueuedPlayer[] players, int winner) {
-
         /* Roughly the average ELO change */
         double updateFactor = 50;
 

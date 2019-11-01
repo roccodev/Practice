@@ -28,6 +28,9 @@ commands:
   rtp:
     description: "Teleport to a player"
     usage: "/rtp <player>"
+  queue:
+    description: "Queues for a match"
+    usage: "/queue"
 permissions:
   practice.*:
     description: "Gives admin access to the plugin."

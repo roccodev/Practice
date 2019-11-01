@@ -185,3 +185,37 @@ report.successful: "Succesfully submitted report."
 # %6$s - Player name
 # %7$s - Info prefix (see prefix.info)
 stats.overview: "Showing &a%6$s&7's stats:\n%7$sKills:&a %1$s&7\n%7$sDeaths:&a %2$s&7\n%7$sVictories:&a %3$s&7\n%7$sPlayed:&a %4$s&7\n%7$sForfeits:&a %5$s"
+
+
+## QUEUE
+
+# The timeout for the ranked queue search.
+# When this timer expires the elo range is updated.
+# Unit: Milliseconds (1 second = 1000 milliseconds)
+queue.ranked.timeout: 5000
+
+# The elo range delta that should be applied when extending the range.
+# The value is added to the max elo and subtracted to the min elo.
+queue.ranked.elo_shift: 200
+
+# Shown when a player joins a queue.
+# Parameters:
+# %1$s - Mode: Ranked/Unranked
+# %2$s - Kit name
+queue.join: "Succesfully joined the &a%1$s %2$s&7 queue."
+
+# Shown when a players leaves a queue.
+queue.leave: "You left the queue."
+
+# Shown when the matchmaking system is searching for player based on their rating.
+# Parameters:
+# %1$s - Minimum ELO
+# %2$s - Maximum ELO
+queue.elo_search: "Searching for players in ELO range &a%1$s&7-&a%2$s&7."
+
+# Shown at the end of a match.
+# Parameters:
+# %1$s - New ELO
+# %2$s - ELO difference (e.g., +10, -20)
+queue.elo_update: "Your new ELO: &a%1$s &7(&a%2$s&7)"
+

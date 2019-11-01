@@ -25,8 +25,8 @@ public class SQL {
     }
 
     static boolean run(String query, Object... data) {
-        PreparedStatement stmt = getStatement(query);
         try {
+            PreparedStatement stmt = getStatement(query);
             for (int i = 0; i < data.length; i++) {
                 stmt.setObject(i + 1, data[i]);
             }
@@ -37,9 +37,21 @@ public class SQL {
         return false;
     }
 
-    static ResultSet runQuery(String query, Object... data) {
-        PreparedStatement stmt = getStatement(query);
+    static boolean runNoExcept(String query, Object... data) {
         try {
+            PreparedStatement stmt = getStatement(query);
+            for (int i = 0; i < data.length; i++) {
+                stmt.setObject(i + 1, data[i]);
+            }
+            return stmt.execute();
+        } catch(SQLException ignored) {
+        }
+        return false;
+    }
+
+    static ResultSet runQuery(String query, Object... data) {
+        try {
+            PreparedStatement stmt = getStatement(query);
             for (int i = 0; i < data.length; i++) {
                 stmt.setObject(i + 1, data[i]);
             }
@@ -50,15 +62,11 @@ public class SQL {
         return null;
     }
 
-    private static PreparedStatement getStatement(String query) {
+    private static PreparedStatement getStatement(String query) throws SQLException {
         synchronized (lock) {
             PreparedStatement stmt = statements.get(query);
             if(stmt == null) {
-                try {
-                    stmt = connection.prepareStatement(query);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                stmt = connection.prepareStatement(query);
             }
             return stmt;
         }

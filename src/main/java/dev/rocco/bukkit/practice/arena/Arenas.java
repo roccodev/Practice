@@ -8,11 +8,12 @@ package dev.rocco.bukkit.practice.arena;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Arenas {
 
-    public static HashSet<Arena> arenas = new HashSet<>();
+    public static Set<Arena> arenas = ConcurrentHashMap.newKeySet();
 
     public static Arena getByWorldAndPlaying(World world) {
         for(Arena arena : arenas) {

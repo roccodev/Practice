@@ -42,14 +42,14 @@ public class Arena {
 
     private int maxTeams;
 
-    private List<ArenaTeam> combatants = new ArrayList<>();
-    private List<Player> spectators = new ArrayList<>();
+    private List<ArenaTeam> combatants = Collections.synchronizedList(new ArrayList<>());
+    private List<Player> spectators = Collections.synchronizedList(new ArrayList<>());
 
     private HashMap<Player, Location> cachedSpectatorLocations = new HashMap<>();
-    private List<Player> awaitingTeam = new ArrayList<>();
+    private List<Player> awaitingTeam = Collections.synchronizedList(new ArrayList<>());
     private HashMap<Player, PlayerData.InventoryData> cachedInventories = new HashMap<>();
 
-    private List<Player> invited = new ArrayList<>();
+    private List<Player> invited = Collections.synchronizedList(new ArrayList<>());
 
     private Set<Block> playerPlacedBlocks = new HashSet<>();
 
@@ -141,6 +141,14 @@ public class Arena {
             System.out.println("Stopping arena " + id);
             stop();
         }
+    }
+
+    public void setQueuedPlayers(QueuedPlayer[] queuedPlayers) {
+        this.queuedPlayers = queuedPlayers;
+    }
+
+    public void setType(QueueType type) {
+        this.type = type;
     }
 
     public List<Player> getInvited() {
@@ -242,7 +250,7 @@ public class Arena {
 
     }
 
-    private String uuidStripped(Player player) {
+    public static String uuidStripped(Player player) {
         return player.getUniqueId().toString().replace("-", "");
     }
 
@@ -266,7 +274,6 @@ public class Arena {
         broadcast(String.format(ConfigEntries.ARENA_JOIN, joining.getName()));
 
         PracticePlugin.STATS_MGR.addProfile(uuidStripped(joining));
-
         if(awaitingTeam.size() >= maxTeams) start();
     }
 
@@ -350,7 +357,14 @@ public class Arena {
         });
 
         if(type == QueueType.RANKED) {
-            EloCalculator.updateElo(queuedPlayers, 0);
+            int winnerNum = -1;
+            for(int i = 0; i < queuedPlayers.length; i++) {
+                if(queuedPlayers[i].getBukkit() == winner.getPlayers().get(0)) {
+                    winnerNum = i;
+                    break;
+                }
+            }
+            EloCalculator.updateElo(queuedPlayers, winnerNum);
         }
 
         combatants.clear();
