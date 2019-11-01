@@ -6,16 +6,26 @@
 package dev.rocco.bukkit.practice.utils.config;
 
 import dev.rocco.bukkit.practice.arena.kit.KitDispatcherType;
+import dev.rocco.bukkit.practice.stats.ManagerType;
 import dev.rocco.bukkit.practice.utils.Prefix;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.Locale;
 
 public class ConfigEntries {
 
     public static String INFO_PREFIX, ERROR_PREFIX;
 
     public static String E_PERM, E_404, E_KICK, E_NOTINARENA;
+
+    public static ManagerType DATABASE_ENGINE;
+    public static String DATABASE_HOST;
+    public static int DATABASE_PORT;
+    public static String DATABASE_NAME;
+    public static String DATABASE_USER;
+    public static String DATABASE_KEY;
 
     public static String PING_RESULT;
 
@@ -89,5 +99,12 @@ public class ConfigEntries {
         QUEUE_LEAVE = INFO_PREFIX + c(config.getString("queue.leave"));
         QUEUE_SEARCH_ELO = INFO_PREFIX + c(config.getString("queue.elo_search"));
         QUEUE_UPDATE_ELO = INFO_PREFIX + c(config.getString("queue.elo_update"));
+
+        DATABASE_ENGINE = ManagerType.valueOf(config.getString("database.engine").toUpperCase(Locale.ROOT));
+        DATABASE_HOST = config.getString("database.host");
+        DATABASE_NAME = config.getString("database.name");
+        DATABASE_USER = config.getString("database.user");
+        DATABASE_PORT = config.getInt("database.port");
+        DATABASE_KEY = config.getString("database.key");
     }
 }

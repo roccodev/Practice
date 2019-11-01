@@ -1,12 +1,12 @@
 #######################################################
 # Practice Config
 # For info and help, check the Git repo over here:
-# https://github.com/RoccdoDev/Practice
+# https://github.com/RoccoDev/Practice
 # More specifically, config documentation can be found over here:
 # https://rocco.dev/practice/config
 # If you wish to contact me privately, send me an email:
 # hey@rocco.dev
-# You may also find me on Discord: RoccoDev#1337
+# You may also find me on Discord: RoccoDev#2699
 # As well as on SpigotMC.org: Rocco
 ########################################################
 
@@ -63,6 +63,29 @@ error.arena.kick: "You have been kicked from the arena. Reason:&c %1$s"
 # Parameters:
 # %1$s - The player name
 error.arena.playernotfound: "Player %1$s is not playing."
+
+
+## DATABASE
+
+# The database engine
+# Available engines: sqlite, mysql
+database.engine: sqlite
+
+# The database host
+database.host: localhost
+
+# The database port
+database.port: 3306
+
+# The database name
+database.name: practice
+
+# The database username
+database.user: admin
+
+# The database password
+database.key: admin
+
 
 ## ARENA
 
@@ -204,7 +227,7 @@ queue.ranked.elo_shift: 200
 # %2$s - Kit name
 queue.join: "Succesfully joined the &a%1$s %2$s&7 queue."
 
-# Shown when a players leaves a queue.
+# Shown when a player leaves a queue.
 queue.leave: "You left the queue."
 
 # Shown when the matchmaking system is searching for player based on their rating.

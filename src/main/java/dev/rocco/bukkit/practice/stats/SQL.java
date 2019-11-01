@@ -6,6 +6,7 @@
 package dev.rocco.bukkit.practice.stats;
 
 import dev.rocco.bukkit.practice.PracticePlugin;
+import dev.rocco.bukkit.practice.utils.config.ConfigEntries;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,8 +19,12 @@ public class SQL {
     private static final Object lock = new Object();
     private static HashMap<String, PreparedStatement> statements = new HashMap<>();
 
-    public static void load() {
+    public static void load() throws Exception {
+        ManagerType type = ConfigEntries.DATABASE_ENGINE;
+        Class<? extends StatsManager> mgr = type.getType();
+        PracticePlugin.STATS_MGR = mgr.newInstance();
         PracticePlugin.STATS_MGR.load();
+
         connection = (Connection) PracticePlugin.STATS_MGR.connect();
         PracticePlugin.STATS_MGR.loadComplete();
     }

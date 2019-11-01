@@ -58,7 +58,11 @@ public class PracticePlugin extends JavaPlugin {
         PluginCompat.check();
 
         STATS_MGR = new SQLiteStatsManager();
-        SQL.load();
+        try {
+            SQL.load();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
