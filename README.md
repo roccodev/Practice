@@ -4,6 +4,9 @@
 
 A simple yet fully fledged PvP Practice/Arena plugin for Bukkit/Spigot.
 
+**Note**: This project is still in very early stage and most of the features, 
+such as map loading, haven't been implemented yet. 
+
 ## Features
 + 1v1, 2v2, 3v3 etc. matches;
 + Custom maps (with WorldEdit schematics);
