@@ -26,11 +26,11 @@ public class QueuedPlayer {
         this.elo = elo;
     }
 
-    public void consume() {
+    void consume() {
         this.consumed = true;
     }
 
-    public boolean isConsumed() {
+    boolean isConsumed() {
         return consumed;
     }
 
