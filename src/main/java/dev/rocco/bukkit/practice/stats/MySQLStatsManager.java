@@ -8,7 +8,11 @@ package dev.rocco.bukkit.practice.stats;
 public class MySQLStatsManager implements StatsManager {
     @Override
     public void load() {
-
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

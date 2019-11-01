@@ -3,14 +3,38 @@
  * All rights reserved.
  */
 
-plugins {
-    id 'java'
+apply plugin: 'java'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'net.sf.proguard:proguard-gradle:5.2.1'
+    }
 }
 
 group 'pw.roccodev.bukkit'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
+
+if(System.getenv("PROGUARD") != null) {
+    task proguard(type: proguard.gradle.ProGuardTask) {
+        injars "${jar.archivePath}"
+        outjars "${jar.archivePath}-obf.jar"
+
+        libraryjars "${System.getProperty('java.home')}/lib/rt.jar"
+        libraryjars configurations.compileOnly
+        libraryjars configurations.compile
+
+        ignorewarnings
+        repackageclasses 'practice'
+
+        keep 'public class dev.rocco.bukkit.practice.PracticePlugin'
+    }
+}
 
 repositories {
 
@@ -32,6 +56,8 @@ dependencies {
     compileOnly 'com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT' /* WorldEdit */
 
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.25.2' /* SQLite Driver */
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.18' /* MySQL Driver */
 }
 
-jar.destinationDir = new File(System.getenv("OUT_DIR"))
+if(System.getenv("OUT_DIR") != null)
+    jar.destinationDir = new File(System.getenv("OUT_DIR"))
